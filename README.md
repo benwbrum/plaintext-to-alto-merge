@@ -33,7 +33,7 @@ doc.search('Textline').each do |xml_line|
     doc.delete(xml_line)
   end
 end
-
+```
 
 ### Match Lines
 Inputs:
