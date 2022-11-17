@@ -27,7 +27,7 @@ matching = match_lines(doc, corrected)
 match_index = 0
 doc.search('Textline').each do |xml_line|
   if matching[match_index][0] == xml_line
-    merge_lines(xml_line, match_index[1])
+    merge_lines(xml_line, matching[match_index][1])
     match_index += 1
   else
     doc.delete(xml_line)
