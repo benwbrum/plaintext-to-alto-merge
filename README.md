@@ -56,5 +56,35 @@ attributes except for `CONTENT`, which will contain a corresponding word
 from the updated text.
 
 
+### Best Match Matrix
+Inputs: 
+* One string of corrected text (a line or word)
+* An array of DOM elements to search
 
+Outputs:
+* A map contatining DOM elements with each element's distance from the string,
+adjusted for string length
 
+```ruby
+def match_matrix(corrected_text, elements)
+  matrix = {}
+  # loop through each element, calculating the Levenshtein distance between 
+  # the element and the corrected text
+  elements.each do |element|
+    # elements may be lines or words
+    if element.name == 'Textline'
+      # join the string contents together
+      raw_text = element.search('String').map {|e| e['CONTENT']}.join
+    else
+      # this is a single word
+      raw_text = element['CONTENT']
+    end
+    
+    # eliminate any whitespace since word segmentation is a problem in OCR
+    raw_text.gsub!(/\s/, '')
+    correction = corrected_text.gsub(/\s/, '')
+
+    # Find Levenshtein distance and normalize for length of text
+    matrix[element] = Text::Levenshtein.distance(raw_text, correction) / raw_text.length
+  end
+end
