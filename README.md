@@ -44,6 +44,8 @@ Outputs:
 * An array of tuples mapping `Textline` DOM nodes to strings representing 
 corresponding lines
 
+Pseudocode:
+
 
 ### Merge Lines
 Inputs: 
