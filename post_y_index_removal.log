@@ -1,0 +1,197 @@
+Phase A: Aligning words based on exact matches
+remove_outliers_by_y removed 6 out-of-order elements
+Pass 1 anchor count: 46	(15% aligned)
+remove_outliers_by_y removed 0 out-of-order elements
+Pass 3 anchor count: 154	(53.47222222222222% aligned)
+remove_outliers_by_y removed 0 out-of-order elements
+Pass 4 anchor count: 154	(53.47222222222222% aligned)
+Span lengths to resolve
+1	2	#
+8	2	#
+9	1	#
+11	1	#
+16	2	#
+17	1	#
+18	1	#
+22	2	#
+24	1	#
+27	2	#
+28	1	#
+30	1	#
+31	1	#
+34	1	#
+39	1	#
+40	17	#
+46	1	#
+49	1	#
+50	2	#
+55	1	#
+58	1	#
+59	2	#
+63	1	#
+64	3	#
+67	4	#
+69	5	#
+70	6	#
+71	1	#
+74	1	#
+76	1	#
+83	1	#
+84	1	#
+86	2	#
+87	2	#
+88	1	#
+92	4	#
+96	1	#
+98	1	#
+101	3	#
+107	1	#
+110	3	#
+112	3	#
+113	2	#
+115	1	#
+118	1	#
+125	1	#
+126	2	#
+127	1	#
+129	1	#
+131	2	#
+133	3	#
+141	3	#
+142	1	#
+143	1	#
+144	1	#
+147	1	#
+148	3	#
+149	7	#
+151	2	#
+Phase B: Aligning words based on fuzzy matchingremove_outliers_by_y removed 0 out-of-order elements
+Phase B anchor count: 205	(71.18055555555556% aligned)
+Span lengths to resolve
+10	2	#
+20	2	#
+23	1	#
+28	1	#
+35	1	#
+53	3	#
+54	8	#
+55	3	#
+62	1	#
+67	1	#
+79	2	#
+85	1	#
+86	1	#
+90	3	#
+93	2	#
+94	1	#
+95	6	#
+96	1	#
+99	1	#
+109	1	#
+113	2	#
+122	1	#
+124	1	#
+131	1	#
+134	3	#
+140	1	#
+144	1	#
+147	3	#
+148	1	#
+165	1	#
+167	1	#
+169	1	#
+171	2	#
+184	3	#
+185	1	#
+188	1	#
+191	1	#
+192	1	#
+195	2	#
+199	1	#
+202	1	#
+Phase C: Aligning words based on word counts
+2	A	Eellemys I
+	C	Excellency of
+
+2	A	create if
+	C	execution of
+
+3	A	around at the
+	C	arrived at the
+
+8	A	of 28.30s at None of the It
+	C	of 28" 30S at Noon of the 14th
+
+Unequal alignment 8::7:
+of 28" 30S at Noon of the 14th
+into
+of 28.30s at None of the It
+
+3	A	the five of
+	C	the Line of
+
+2	A	self s
+	C	half a
+
+3	A	But server his
+	C	Point Danger lies
+
+2	A	this an
+	C	High and
+
+6	A	
+	C	may be seen about 12 miles
+
+WARNING: Misalignment at index 142.  Corrected text: may be seen about 12 miles
+Unequal alignment 6::0:
+may be seen about 12 miles
+into
+
+
+WARNING: no range for may be seen about 12 miles
+2	A	
+	C	by keeping
+
+WARNING: Misalignment at index 165.  Corrected text: by keeping
+Unequal alignment 2::0:
+by keeping
+into
+
+
+WARNING: no range for by keeping
+3	A	it Dr
+	C	SE 2 1/2
+
+Unequal alignment 3::2:
+SE 2 1/2
+into
+it Dr
+
+3	A	
+	C	4 miles in
+
+WARNING: Misalignment at index 210.  Corrected text: 4 miles in
+Unequal alignment 3::0:
+4 miles in
+into
+
+
+WARNING: no range for 4 miles in
+2	A	Part Lock out
+	C	Point Lookout,
+
+Unequal alignment 2::3:
+Point Lookout,
+into
+Part Lock out
+
+3	A	Both Main funds
+	C	Half Moon Sandy
+
+2	A	appointed I
+	C	approach To
+
+Alignment count after alignment by word count: 261	(90.625% aligned)
+Phase D: Merging aligned words into ALTO-XML
+Phase E: Merging unaligned words into ALTO-XML
+Phase F: Remove unaligned XML elements

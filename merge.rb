@@ -8,6 +8,9 @@ require 'pry-byebug'
 # TODO change to passes by descending character order
 
 
+LONG_WORD_LENGTH=3
+LEVENSHTEIN_THRESHOLD=0.45
+
 # TODO consider pruning punctuation to get semi-fuzzy matches
 
 
@@ -20,7 +23,7 @@ def unique_words_of_size(array, size)
   unique_words_in_array(array.select { |word| word.size >= size })
 end
 
-def remove_outliers(alignment_map)
+def remove_outliers_by_id(alignment_map)
   # TODO -- make this more sophisticated; clean up
   # figure out standard deviation or use Y-axis coordinates of previous (and maybe next?) few words
   raw_ids = alignment_map.values.map{|e| e['ID']}
@@ -43,6 +46,32 @@ def remove_outliers(alignment_map)
   print "remove_outliers removed #{removal_count} out-of-order elements\n"
 end
 
+Y_PROPORTION_THRESHOLD=0.1
+def remove_outliers_by_y(alignment_map)
+  # TODO -- make this more sophisticated; clean up
+  # figure out standard deviation or use Y-axis coordinates of previous (and maybe next?) few words
+  y_map_raw = {}
+  alignment_map.keys.sort.each {|i| y_map_raw[i] = alignment_map[i]['VPOS'].to_i }
+  max_y=y_map_raw.values.max
+  y_map={}
+  y_map_raw.each{|k,v| y_map[k]=y_map_raw[k].to_f / max_y }
+  y_deltas={}
+  2.upto(y_map.size - 3) do |i|
+    mean_y=(y_map.values[i-2..i-1].sum+y_map.values[i+1..i+2].sum) / 4
+    delta_y = (mean_y - y_map.values[i]).abs
+    y_deltas[y_map.keys[i]]=delta_y
+  end
+
+
+  removal_count = 0
+  bad_ids = y_deltas.select{|k,v| v>Y_PROPORTION_THRESHOLD}.keys
+  alignment_map.delete_if {|k,v| bad_ids.include? k}
+  print "remove_outliers_by_y removed #{bad_ids.count} out-of-order elements\n"
+end
+
+def remove_outliers(alignment_map)
+  remove_outliers_by_y(alignment_map)
+end
 
 def index_within_alto(element) 
   @alto_words.map{|e| e[:element]}.index(element)
@@ -78,8 +107,8 @@ def setup
   @alignment_map = {}
 end
 
-def align_range(corrected_range, alto_range, alignment_offset, alto_offset)
-  unique_words = unique_words_in_array(corrected_range)
+def align_range(corrected_range, alto_range, alignment_offset, alto_offset, shortest_word_length=0)
+  unique_words = unique_words_of_size(corrected_range, shortest_word_length)
   # walk through each word, finding the index of the word within @corrected_words (start_range+i)
   unique_words.each do |candidate|
     # look for the word in the alto_range
@@ -95,11 +124,22 @@ def align_range(corrected_range, alto_range, alignment_offset, alto_offset)
 end
 
 
+def print_span_lengths
+  print "Span lengths to resolve\n"
+  old_key=nil
+  @alignment_map.keys.sort.each_with_index do |key,i|
+    if i>0 && key-old_key > 1
+      print "#{i}\t#{key-old_key - 1}\t#\n"
+    end
+    old_key = key
+  end
+end
+
 # read all the files and set up the models
 setup
 
 print "Phase A: Aligning words based on exact matches\n"
-align_range(@corrected_words, @alto_words, 0, 0)
+align_range(@corrected_words, @alto_words, 0, 0, 3)
 remove_outliers(@alignment_map)
 
 print "Pass 1 anchor count: #{@alignment_map.size}\t(#{(100 * @alignment_map.size.to_f/@corrected_words.size.to_f).floor}% aligned)\n"
@@ -111,33 +151,35 @@ print "Pass 1 anchor count: #{@alignment_map.size}\t(#{(100 * @alignment_map.siz
 # now we have top-level segmentation matching unique words within the page.
 # let's do the same for words within each range
 
-# TODO refactor to avoid code duplication
 pass_number=2
 alignment_count = 0
 while alignment_count < @alignment_map.size do
   alignment_count = @alignment_map.size
   pass_number += 1
 
-  previous_index = nil
-  @alignment_map.keys.sort.each_with_index do |key,i|
-    if i==0
-      previous_index=key
-    else
-      current_index = key
-      # get the range between the two
-      start_range = previous_index+1
-      end_range = current_index-1
-      
-      corrected_range = @corrected_words[start_range..end_range]
-      # get the range of @alto_words that corresponds to the current range (segments within the anchors bounding the current range)
+  # false-positive matches are more likely with short words.  Attempting to align longer words first reduces the chances of misalignments.
+  LONG_WORD_LENGTH.downto(0) do |shortest_word_length|
+    previous_index = nil
+    @alignment_map.keys.sort.each_with_index do |key,i|
+      if i==0
+        previous_index=key
+      else
+        current_index = key
+        # get the range between the two
+        start_range = previous_index+1
+        end_range = current_index-1
+        
+        corrected_range = @corrected_words[start_range..end_range]
+        # get the range of @alto_words that corresponds to the current range (segments within the anchors bounding the current range)
 
-      alto_start = index_within_alto(@alignment_map[previous_index])
-      alto_end = index_within_alto(@alignment_map[current_index])
-      alto_range = @alto_words[alto_start..alto_end]
+        alto_start = index_within_alto(@alignment_map[previous_index])
+        alto_end = index_within_alto(@alignment_map[current_index])
+        alto_range = @alto_words[alto_start..alto_end]
 
-      align_range(corrected_range, alto_range, start_range, alto_start)
+        align_range(corrected_range, alto_range, start_range, alto_start, shortest_word_length)
 
-      previous_index=key
+        previous_index=key
+      end
     end
   end
   remove_outliers(@alignment_map)
@@ -146,14 +188,8 @@ while alignment_count < @alignment_map.size do
 #  print "Pass #{pass_number} ordered IDs:\n#{ordered_ids}\n\n"
 end
 
-print "Span lengths to resolve\n"
-old_key=nil
-@alignment_map.keys.sort.each_with_index do |key,i|
-  if i>0 && key-old_key > 1
-    print "#{i}\t#{key-old_key - 1}\t#\n"
-  end
-  old_key = key
-end
+
+print_span_lengths
 
 
 print "Phase B: Aligning words based on fuzzy matching"
@@ -168,7 +204,7 @@ previous_index = nil
     end_range = current_index-1
     
     corrected_range = @corrected_words[start_range..end_range]
-    unique_words = unique_words_in_array(corrected_range)
+    unique_words = unique_words_of_size(corrected_range, LONG_WORD_LENGTH)
     # get the range of @alto_words that corresponds to the current range (segments within the anchors bounding the current range)
 
     alto_start = index_within_alto(@alignment_map[previous_index])
@@ -177,12 +213,12 @@ previous_index = nil
 
     if alto_range.size > 0
       # walk through each word longer than three characters looking for close matches
-      unique_words.select{|w| w.length>=3}.each do |candidate|
-        long_words = alto_range.select{|w| w[:string].length >=3}
+      unique_words.each do |candidate|
+        long_words = alto_range.select{|w| w[:string].length >=LONG_WORD_LENGTH}
         fuzzy_match_array = long_words.map{|w| [w[:string], Text::Levenshtein.distance(candidate, w[:string]).to_f/candidate.length]}
         sorted_fuzzy_matches = fuzzy_match_array.sort{|a,b| a[1]<=>b[1]}
         best_match = sorted_fuzzy_matches.first
-        if best_match[1] < 0.45
+        if best_match[1] < LEVENSHTEIN_THRESHOLD
           # print "#{best_match[1].round(2)}\t#{candidate}\t#{best_match[0]}\n" if best_match[1] < 0.45
           alto_range_index = alto_range.index {|element| element[:string] == best_match[0]}
           corrected_index = corrected_range.index(candidate)+start_range
@@ -198,14 +234,7 @@ remove_outliers(@alignment_map)
 print "Phase B anchor count: #{@alignment_map.size}\t(#{100 * @alignment_map.size.to_f/@corrected_words.size.to_f}% aligned)\n"
 ordered_ids= @alignment_map.sort.map{|a| a[1]['ID']}.join("\n")
 
-print "Span lengths to resolve\n"
-old_key=nil
-@alignment_map.keys.sort.each_with_index do |key,i|
-  if i>0 && key-old_key > 1
-    print "#{i}\t#{key-old_key - 1}\t#\n"
-  end
-  old_key = key
-end
+print_span_lengths
 
 print "Phase C: Aligning words based on word counts\n"
 previous_index = nil
