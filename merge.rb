@@ -63,15 +63,16 @@ def align_segments_dp(corrected_range, alto_range, start_range, alto_start)
         end
       end
       
-      # Insert (skip corrected word) - higher cost to discourage skipping
-      if i > 0 && dist[i-1][j] + 1.0 < dist[i][j]
-        dist[i][j] = dist[i-1][j] + 1.0
+      # Insert (skip corrected word) - adjust cost based on segment length ratio
+      skip_cost = 0.7 + (0.3 * (c_len - a_len).abs.to_f / [c_len, a_len].max)
+      if i > 0 && dist[i-1][j] + skip_cost < dist[i][j]
+        dist[i][j] = dist[i-1][j] + skip_cost
         path[i][j] = :insert
       end
       
-      # Delete (skip alto word) - higher cost to discourage skipping  
-      if j > 0 && dist[i][j-1] + 1.0 < dist[i][j]
-        dist[i][j] = dist[i][j-1] + 1.0
+      # Delete (skip alto word) - adjust cost based on segment length ratio
+      if j > 0 && dist[i][j-1] + skip_cost < dist[i][j]
+        dist[i][j] = dist[i][j-1] + skip_cost
         path[i][j] = :delete
       end
     end
@@ -82,8 +83,9 @@ def align_segments_dp(corrected_range, alto_range, start_range, alto_start)
   while i > 0 || j > 0
     case path[i][j]
     when :match
-      # Use a more lenient threshold for DP alignment
-      if calculate_word_distance(corrected_range[i-1], alto_range[j-1][:string]) < 0.6
+      # Use a more lenient threshold for DP alignment, especially for longer words
+      threshold = corrected_range[i-1].length >= 4 ? 0.7 : 0.5
+      if calculate_word_distance(corrected_range[i-1], alto_range[j-1][:string]) < threshold
         corrected_index = start_range + i - 1
         @alignment_map[corrected_index] = alto_range[j-1][:element]
       end
@@ -440,7 +442,50 @@ end
 
 print "Phase D anchor count: #{@alignment_map.size}\t(#{100 * @alignment_map.size.to_f/@corrected_words.size.to_f}% aligned)\n"
 
-print "Phase E: Merging aligned words into ALTO-XML\n"
+print "Phase E: Final aggressive alignment\n"
+# Try to align remaining words using very lenient criteria
+unaligned_corrected = []
+@corrected_words.each_with_index do |word, i|
+  unless @alignment_map[i]
+    unaligned_corrected << [i, word]
+  end
+end
+
+unaligned_alto = []
+@alto_words.each_with_index do |word_info, i|
+  unless @alignment_map.values.include?(word_info[:element])
+    unaligned_alto << [i, word_info]
+  end
+end
+
+print "Unaligned corrected words: #{unaligned_corrected.size}\n"
+print "Unaligned alto words: #{unaligned_alto.size}\n"
+
+# Try to match remaining words with very lenient criteria
+unaligned_corrected.each do |corrected_index, corrected_word|
+  next if corrected_word.length < 2  # Skip very short words
+  
+  best_match = nil
+  best_distance = Float::INFINITY
+  
+  unaligned_alto.each do |alto_index, alto_info|
+    distance = calculate_word_distance(corrected_word, alto_info[:string])
+    if distance < best_distance && distance < 0.8  # Very lenient threshold
+      best_match = [alto_index, alto_info]
+      best_distance = distance
+    end
+  end
+  
+  if best_match
+    @alignment_map[corrected_index] = best_match[1][:element]
+    # Remove the matched alto word from unaligned list
+    unaligned_alto.delete(best_match)
+  end
+end
+
+print "Phase E anchor count: #{@alignment_map.size}\t(#{100 * @alignment_map.size.to_f/@corrected_words.size.to_f}% aligned)\n"
+
+print "Phase F: Merging aligned words into ALTO-XML\n"
 unaligned_corrected=[]
 @corrected_words.each_with_index do |corrected,i|
   if @alignment_map[i]
@@ -450,10 +495,10 @@ unaligned_corrected=[]
   end
 end
 
-print "Phase F: Merging unaligned words into ALTO-XML\n"
+print "Phase G: Merging unaligned words into ALTO-XML\n"
 
 
-print "Phase G: Remove unaligned XML elements\n"
+print "Phase H: Remove unaligned XML elements\n"
 aligned_elements = @alignment_map.values
 @alto_words.each do |e|
   unless aligned_elements.include?(e[:element])
