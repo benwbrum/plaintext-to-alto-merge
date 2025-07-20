@@ -9,7 +9,7 @@ def test_alignment(corrected_file, alto_file)
   output = `ruby merge.rb #{corrected_file} #{alto_file} 2>&1`
   
   # Find the final alignment rate
-  final_rate = output.lines.grep(/Phase E anchor count/).last
+  final_rate = output.lines.grep(/Alignment count after alignment by word count/).last
   
   if final_rate
     rate = final_rate.match(/(\d+\.\d+)% aligned/)
