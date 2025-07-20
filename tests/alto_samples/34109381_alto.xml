@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<alto xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="http://www.loc.gov/standards/alto/ns-v4#"
+      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+      xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
+      xmlns:page="http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15"
+      xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+      xmlns:local="local"
+      xsi:schemaLocation="http://www.loc.gov/standards/alto/ns-v4# https://www.loc.gov/standards/alto/v4/alto.xsd">
+   <Description>
+      <MeasurementUnit>pixel</MeasurementUnit>
+      <sourceImageInformation>
+         <fileName>orig_proc-api-45f0ca54-dc0f-4d3d-b85c-229d6f764713.jpg</fileName>
+      </sourceImageInformation>
+      <Processing ID="IdOcr">
+         <processingDateTime>2024-06-19T13:37:14.389+02:00</processingDateTime>
+         <processingSoftware>
+            <softwareCreator>READ COOP</softwareCreator>
+            <softwareName>Transkribus</softwareName>
+         </processingSoftware>
+      </Processing>
+   </Description>
+   <Layout>
+      <Page ID="Page1" PHYSICAL_IMG_NR="1" HEIGHT="2035" WIDTH="1262">
+         <TopMargin HEIGHT="0" WIDTH="1262" VPOS="0" HPOS="0"/>
+         <LeftMargin HEIGHT="2035" WIDTH="0" VPOS="0" HPOS="0"/>
+         <RightMargin HEIGHT="2035" WIDTH="0" VPOS="0" HPOS="1262"/>
+         <BottomMargin HEIGHT="0" WIDTH="1262" VPOS="2035" HPOS="0"/>
+         <PrintSpace HEIGHT="2035" WIDTH="1262" VPOS="0" HPOS="0">
+            <TextBlock ID="tr_1" HEIGHT="1762" WIDTH="690" VPOS="94" HPOS="167">
+               <Shape>
+                  <Polygon POINTS="167,94 167,1856 857,1856 857,94"/>
+               </Shape>
+               <TextLine ID="tr_1_tl_1"
+                         BASELINE="295,141 323,141 351,141 379,143 407,143 435,144 463,144 491,144 519,145 547,144 576,143 604,144 632,145 660,147 688,147 716,149 744,149 772,149 800,152 828,153 857,151"
+                         HEIGHT="134"
+                         WIDTH="568"
+                         VPOS="68"
+                         HPOS="288">
+                  <String HEIGHT="134"
+                          WIDTH="426"
+                          VPOS="68"
+                          HPOS="241"
+                          CONTENT="Brick"/>
+                  <SP HEIGHT="134" WIDTH="47" VPOS="68" HPOS="667"/>
+                  <String HEIGHT="134"
+                          WIDTH="379"
+                          VPOS="68"
+                          HPOS="477"
+                          CONTENT="House."/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_2"
+                         BASELINE="167,247 193,245 219,246 245,247 271,247 297,247 323,247 349,249 375,249 401,251 427,251"
+                         HEIGHT="128"
+                         WIDTH="266"
+                         VPOS="186"
+                         HPOS="161">
+                  <String HEIGHT="128"
+                          WIDTH="372"
+                          VPOS="186"
+                          HPOS="55"
+                          CONTENT="Nancy"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_3"
+                         BASELINE="179,351 204,349 230,349 256,349 282,349 308,350 333,351 359,351 385,353 411,354 437,357"
+                         HEIGHT="128"
+                         WIDTH="263"
+                         VPOS="266"
+                         HPOS="173">
+                  <String HEIGHT="128"
+                          WIDTH="351"
+                          VPOS="266"
+                          HPOS="85"
+                          CONTENT="Isabel"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_4"
+                         BASELINE="175,451 201,449 227,449 253,448 280,448 306,450 332,451 358,451 385,453"
+                         HEIGHT="152"
+                         WIDTH="216"
+                         VPOS="362"
+                         HPOS="169">
+                  <String HEIGHT="152"
+                          WIDTH="302"
+                          VPOS="362"
+                          HPOS="83"
+                          CONTENT="Lincy"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_5"
+                         BASELINE="181,533 208,535 235,537 262,538 290,540 317,543 344,546 371,548 399,551"
+                         HEIGHT="136"
+                         WIDTH="229"
+                         VPOS="466"
+                         HPOS="172">
+                  <String HEIGHT="136"
+                          WIDTH="321"
+                          VPOS="466"
+                          HPOS="80"
+                          CONTENT="Fanny"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_6"
+                         BASELINE="192,637 217,637 242,638 267,639 293,640 318,641 343,643 368,643 394,643 419,643 444,643 469,643 495,645"
+                         HEIGHT="120"
+                         WIDTH="308"
+                         VPOS="555"
+                         HPOS="185">
+                  <String HEIGHT="120"
+                          WIDTH="396"
+                          VPOS="555"
+                          HPOS="97"
+                          CONTENT="Matilda"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_7"
+                         BASELINE="181,731 207,733 233,733 259,734 285,737 311,740 337,741 363,743 389,743 415,745 441,745"
+                         HEIGHT="113"
+                         WIDTH="266"
+                         VPOS="659"
+                         HPOS="174">
+                  <String HEIGHT="113"
+                          WIDTH="372"
+                          VPOS="659"
+                          HPOS="68"
+                          CONTENT="Luisa"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_8"
+                         BASELINE="189,827 214,827 240,830 265,833 291,835 316,835 342,837 367,837 393,839 418,839 444,839 469,839 495,841"
+                         HEIGHT="94"
+                         WIDTH="313"
+                         VPOS="772"
+                         HPOS="182">
+                  <String HEIGHT="94"
+                          WIDTH="417"
+                          VPOS="772"
+                          HPOS="78"
+                          CONTENT="Hannah"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_9"
+                         BASELINE="181,925 207,928 234,931 261,931 288,932 315,933 341,934 368,937 395,937 422,939 449,939"
+                         HEIGHT="145"
+                         WIDTH="276"
+                         VPOS="849"
+                         HPOS="173">
+                  <String HEIGHT="145"
+                          WIDTH="368"
+                          VPOS="849"
+                          HPOS="81"
+                          CONTENT="Franky"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_10"
+                         BASELINE="171,1031 197,1031 224,1033 251,1033 277,1033 304,1034 331,1035 357,1035 384,1035 411,1035"
+                         HEIGHT="114"
+                         WIDTH="246"
+                         VPOS="976"
+                         HPOS="165">
+                  <String HEIGHT="114" WIDTH="295" VPOS="976" HPOS="116" CONTENT="My"/>
+                  <SP HEIGHT="114" WIDTH="49" VPOS="976" HPOS="411"/>
+                  <String HEIGHT="114" WIDTH="197" VPOS="976" HPOS="214" CONTENT="my"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_11"
+                         BASELINE="169,1137 195,1137 222,1135 248,1136 275,1138 301,1138 328,1137 354,1137 381,1139"
+                         HEIGHT="89"
+                         WIDTH="216"
+                         VPOS="1073"
+                         HPOS="163">
+                  <String HEIGHT="89"
+                          WIDTH="302"
+                          VPOS="1073"
+                          HPOS="77"
+                          CONTENT="Grace"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_12"
+                         BASELINE="169,1231 195,1231 221,1231 247,1232 273,1233 299,1234 325,1235 351,1235 377,1235 403,1233 429,1233"
+                         HEIGHT="135"
+                         WIDTH="266"
+                         VPOS="1155"
+                         HPOS="162">
+                  <String HEIGHT="135"
+                          WIDTH="355"
+                          VPOS="1155"
+                          HPOS="73"
+                          CONTENT="Winnes"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_13"
+                         BASELINE="173,1325 200,1329 227,1331 255,1329 282,1330 310,1331 337,1332 365,1333"
+                         HEIGHT="138"
+                         WIDTH="198"
+                         VPOS="1248"
+                         HPOS="166">
+                  <String HEIGHT="138"
+                          WIDTH="277"
+                          VPOS="1248"
+                          HPOS="87"
+                          CONTENT="Polly"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_14"
+                         BASELINE="187,1425 214,1423 242,1425 270,1427 298,1427 325,1428 353,1429 381,1429 409,1429"
+                         HEIGHT="121"
+                         WIDTH="227"
+                         VPOS="1337"
+                         HPOS="180">
+                  <String HEIGHT="121"
+                          WIDTH="303"
+                          VPOS="1337"
+                          HPOS="104"
+                          CONTENT="Lutia."/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_15"
+                         BASELINE="171,1527 197,1527 223,1527 249,1528 276,1530 302,1532 328,1533 354,1535 381,1531"
+                         HEIGHT="149"
+                         WIDTH="218"
+                         VPOS="1445"
+                         HPOS="165">
+                  <String HEIGHT="149"
+                          WIDTH="305"
+                          VPOS="1445"
+                          HPOS="78"
+                          CONTENT="Lally"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_16"
+                         BASELINE="167,1625 193,1627 220,1627 247,1628 274,1630 301,1631 328,1630 355,1629 382,1627 409,1623"
+                         HEIGHT="119"
+                         WIDTH="245"
+                         VPOS="1555"
+                         HPOS="162">
+                  <String HEIGHT="119"
+                          WIDTH="315"
+                          VPOS="1555"
+                          HPOS="92"
+                          CONTENT="Phillis"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_17"
+                         BASELINE="167,1719 193,1721 219,1722 245,1724 272,1725 298,1725 324,1725 351,1725"
+                         HEIGHT="112"
+                         WIDTH="190"
+                         VPOS="1650"
+                         HPOS="160">
+                  <String HEIGHT="112"
+                          WIDTH="266"
+                          VPOS="1650"
+                          HPOS="84"
+                          CONTENT="Etere"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_18"
+                         BASELINE="177,1823 204,1825 231,1825 259,1825 286,1828 314,1829 341,1829 369,1829"
+                         HEIGHT="147"
+                         WIDTH="198"
+                         VPOS="1743"
+                         HPOS="170">
+                  <String HEIGHT="147"
+                          WIDTH="297"
+                          VPOS="1743"
+                          HPOS="71"
+                          CONTENT="Lucy"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_19"
+                         BASELINE="477,1827 505,1825 533,1828 561,1831 589,1833"
+                         HEIGHT="122"
+                         WIDTH="120"
+                         VPOS="1737"
+                         HPOS="468">
+                  <String HEIGHT="122"
+                          WIDTH="240"
+                          VPOS="1737"
+                          HPOS="348"
+                          CONTENT="17"/>
+               </TextLine>
+            </TextBlock>
+         </PrintSpace>
+      </Page>
+   </Layout>
+</alto>

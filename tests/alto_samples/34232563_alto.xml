@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<alto xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="http://www.loc.gov/standards/alto/ns-v4#"
+      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+      xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
+      xmlns:page="http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15"
+      xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+      xmlns:local="local"
+      xsi:schemaLocation="http://www.loc.gov/standards/alto/ns-v4# https://www.loc.gov/standards/alto/v4/alto.xsd">
+   <Description>
+      <MeasurementUnit>pixel</MeasurementUnit>
+      <sourceImageInformation>
+         <fileName>orig_proc-api-fc51f62e-192e-404c-a9ba-f8f08cc9255f.jpg</fileName>
+      </sourceImageInformation>
+      <Processing ID="IdOcr">
+         <processingDateTime>2024-08-27T15:26:38.603+02:00</processingDateTime>
+         <processingSoftware>
+            <softwareCreator>READ COOP</softwareCreator>
+            <softwareName>Transkribus</softwareName>
+         </processingSoftware>
+      </Processing>
+   </Description>
+   <Layout>
+      <Page ID="Page1" PHYSICAL_IMG_NR="1" HEIGHT="4945" WIDTH="6115">
+         <TopMargin HEIGHT="0" WIDTH="6115" VPOS="0" HPOS="0"/>
+         <LeftMargin HEIGHT="4945" WIDTH="0" VPOS="0" HPOS="0"/>
+         <RightMargin HEIGHT="4945" WIDTH="0" VPOS="0" HPOS="6115"/>
+         <BottomMargin HEIGHT="0" WIDTH="6115" VPOS="4945" HPOS="0"/>
+         <PrintSpace HEIGHT="4945" WIDTH="6115" VPOS="0" HPOS="0">
+            <TextBlock ID="tr_1" HEIGHT="801" WIDTH="1881" VPOS="2175" HPOS="2544">
+               <Shape>
+                  <Polygon POINTS="2544,2175 2544,2976 4425,2976 4425,2175"/>
+               </Shape>
+               <TextLine ID="tr_1_tl_1"
+                         BASELINE="2544,2299 2638,2287 2732,2287 2826,2287 2920,2287 3014,2287 3108,2287 3202,2287 3296,2287 3390,2287 3484,2287 3578,2287 3672,2287 3766,2287 3860,2287 3954,2287 4048,2287 4142,2287 4236,2287 4330,2276 4425,2275"
+                         HEIGHT="269"
+                         WIDTH="1887"
+                         VPOS="2105"
+                         HPOS="2531">
+                  <String HEIGHT="269"
+                          WIDTH="993"
+                          VPOS="2105"
+                          HPOS="2432"
+                          CONTENT="Duncan"/>
+                  <SP HEIGHT="269" WIDTH="99" VPOS="2105" HPOS="3425"/>
+                  <String HEIGHT="269"
+                          WIDTH="1092"
+                          VPOS="2105"
+                          HPOS="3127"
+                          CONTENT="Cameron"/>
+                  <SP HEIGHT="269" WIDTH="99" VPOS="2105" HPOS="4219"/>
+                  <String HEIGHT="269"
+                          WIDTH="596"
+                          VPOS="2105"
+                          HPOS="3822"
+                          CONTENT="Esqr"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_2"
+                         BASELINE="3463,2597 3506,2595 3549,2592 3592,2589 3635,2586 3678,2584 3721,2581 3764,2580 3807,2580 3850,2580 3894,2580 3937,2580 3980,2580 4023,2580 4066,2580 4109,2580 4152,2577 4195,2574 4238,2577 4282,2580"
+                         HEIGHT="292"
+                         WIDTH="831"
+                         VPOS="2395"
+                         HPOS="3451">
+                  <String HEIGHT="292"
+                          WIDTH="1068"
+                          VPOS="2395"
+                          HPOS="3214"
+                          CONTENT="Raleigh"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_3"
+                         BASELINE="3678,2926 3709,2922 3740,2917 3771,2914 3802,2914 3833,2914 3864,2915 3895,2917 3926,2919 3957,2920 3989,2920 4020,2920 4051,2919 4082,2917 4113,2914 4144,2916 4175,2918 4206,2920 4237,2920 4268,2920 4300,2920"
+                         HEIGHT="269"
+                         WIDTH="628"
+                         VPOS="2712"
+                         HPOS="3665">
+                  <String HEIGHT="269"
+                          WIDTH="942"
+                          VPOS="2712"
+                          HPOS="3351"
+                          CONTENT="N.C."/>
+               </TextLine>
+            </TextBlock>
+         </PrintSpace>
+      </Page>
+   </Layout>
+</alto>

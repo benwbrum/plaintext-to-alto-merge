@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<alto xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="http://www.loc.gov/standards/alto/ns-v4#"
+      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+      xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
+      xmlns:page="http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15"
+      xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+      xmlns:local="local"
+      xsi:schemaLocation="http://www.loc.gov/standards/alto/ns-v4# https://www.loc.gov/standards/alto/v4/alto.xsd">
+   <Description>
+      <MeasurementUnit>pixel</MeasurementUnit>
+      <sourceImageInformation>
+         <fileName>orig_proc-api-da11ea0c-f245-4487-9f5e-b44190d0462c.jpg</fileName>
+      </sourceImageInformation>
+      <Processing ID="IdOcr">
+         <processingDateTime>2024-06-18T02:39:40.068+02:00</processingDateTime>
+         <processingSoftware>
+            <softwareCreator>READ COOP</softwareCreator>
+            <softwareName>Transkribus</softwareName>
+         </processingSoftware>
+      </Processing>
+   </Description>
+   <Layout>
+      <Page ID="Page1" PHYSICAL_IMG_NR="1" HEIGHT="2204" WIDTH="3599">
+         <TopMargin HEIGHT="0" WIDTH="3599" VPOS="0" HPOS="0"/>
+         <LeftMargin HEIGHT="2204" WIDTH="0" VPOS="0" HPOS="0"/>
+         <RightMargin HEIGHT="2204" WIDTH="0" VPOS="0" HPOS="3599"/>
+         <BottomMargin HEIGHT="0" WIDTH="3599" VPOS="2204" HPOS="0"/>
+         <PrintSpace HEIGHT="2204" WIDTH="3599" VPOS="0" HPOS="0">
+            <TextBlock ID="tr_1" HEIGHT="430" WIDTH="798" VPOS="132" HPOS="958">
+               <Shape>
+                  <Polygon POINTS="958,132 958,562 1756,562 1756,132"/>
+               </Shape>
+               <TextLine ID="tr_1_tl_1"
+                         BASELINE="976,203 1008,207 1040,212 1072,216 1104,219 1136,222 1168,223 1200,223 1232,223 1264,223 1297,223 1329,223 1361,225 1393,226 1425,226 1457,226 1489,226 1521,226 1553,223 1585,221 1618,218"
+                         HEIGHT="227"
+                         WIDTH="647"
+                         VPOS="105"
+                         HPOS="970">
+                  <String HEIGHT="227"
+                          WIDTH="345"
+                          VPOS="105"
+                          HPOS="927"
+                          CONTENT="List"/>
+                  <SP HEIGHT="227" WIDTH="43" VPOS="105" HPOS="1272"/>
+                  <String HEIGHT="227"
+                          WIDTH="259"
+                          VPOS="105"
+                          HPOS="1143"
+                          CONTENT="of"/>
+                  <SP HEIGHT="227" WIDTH="43" VPOS="105" HPOS="1401"/>
+                  <String HEIGHT="227"
+                          WIDTH="388"
+                          VPOS="105"
+                          HPOS="1229"
+                          CONTENT="Negroes"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_2"
+                         BASELINE="976,388 1015,387 1054,385 1093,385 1132,385 1171,382 1210,380 1249,377 1288,376 1327,376 1366,376 1405,376 1444,376 1483,376 1522,376 1561,376 1600,376 1639,376 1678,376 1717,376 1756,376"
+                         HEIGHT="238"
+                         WIDTH="783"
+                         VPOS="229"
+                         HPOS="971">
+                  <String HEIGHT="238"
+                          WIDTH="509"
+                          VPOS="229"
+                          HPOS="932"
+                          CONTENT="Belonging"/>
+                  <SP HEIGHT="238" WIDTH="39" VPOS="229" HPOS="1441"/>
+                  <String HEIGHT="238"
+                          WIDTH="235"
+                          VPOS="229"
+                          HPOS="1323"
+                          CONTENT="to"/>
+                  <SP HEIGHT="238" WIDTH="39" VPOS="229" HPOS="1558"/>
+                  <String HEIGHT="238"
+                          WIDTH="352"
+                          VPOS="229"
+                          HPOS="1402"
+                          CONTENT="Ribeeca"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_3"
+                         BASELINE="958,525 990,525 1022,526 1054,528 1086,528 1118,528 1150,527 1182,525 1214,525 1246,525 1279,525 1311,525 1343,525 1375,525 1407,525 1439,525 1471,525 1503,525 1535,528 1567,528 1600,528"
+                         HEIGHT="163"
+                         WIDTH="645"
+                         VPOS="408"
+                         HPOS="953">
+                  <String HEIGHT="163"
+                          WIDTH="595"
+                          VPOS="408"
+                          HPOS="903"
+                          CONTENT="Binnchan"/>
+                  <SP HEIGHT="163" WIDTH="50" VPOS="408" HPOS="1499"/>
+                  <String HEIGHT="163"
+                          WIDTH="298"
+                          VPOS="408"
+                          HPOS="1300"
+                          CONTENT="1803"/>
+               </TextLine>
+            </TextBlock>
+         </PrintSpace>
+      </Page>
+   </Layout>
+</alto>

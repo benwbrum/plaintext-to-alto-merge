@@ -1,0 +1,443 @@
+Property placed in the care of Jas. G. Stephenson as overseer Jany 1848
+
+Negro Men
+
+
+-- | ----------------
+
+ 1 |        Charles
+ 2 |          Sandy
+ 3 |         Milton
+ 4 |        [Jones]
+ 5 |     Little Joe
+ 6 |          Orrin
+ 7 |     Jim Hargis
+ 8 |      Nathaniel
+ 9 |         Prince
+10 |       Carolina
+
+11 |         Willie
+12 |          Peter
+13 |            Tom
+14 |         Nelson
+15 |       John Law
+16 |       Dave Law
+17 |   Lewis [S.M.]
+18 |   Toney Taylor
+19 |          Green
+20 |            Paul
+
+21 |     Washington
+22 |        Madison
+23 |         Martin
+24 |          Frank
+25 |        Anthony
+26 |          Jacob
+27 |       [Thomas]
+28 |       Gustavus
+29 |           Juba
+30 | Jacob (Little)
+31 |          Eaton
+
+ 1 |      John York
+ 2 |          Lewis
+ 3 |         Japhet
+
+ 4 |           Dave
+ 5 |          Simon
+
+ 6 |      Alexander
+
+ 7 |       Anderson
+ 8 |         Wesley
+ 9 |     John Simon
+10 |         Daniel
+11 |          Allan
+12 |         Willis
+
+13 |           Abel
+14 |         Edmund
+
+ 1 |            Agey
+ 2 |      Rosezetta
+ 3 |         Martha
+ 4 |          Peggy
+ 5 |         Jincey
+ 6 |         Dilcey
+
+ 7 |          Molly
+ 8 |           Mary
+ 9 | Fanny Johnston
+10 |          Nelly
+11 |          Aneky
+12 |         Nancey
+
+13 |          Polly
+14 |        [Sally]
+15 |           Lidy
+16 |          Eliza
+17 |          Becky
+
+
+
+-- | ----------------
+
+11 |         Willie
+12 |          Peter
+13 |            Tom
+14 |         Nelson
+15 |       John Law
+16 |       Dave Law
+17 |   Lewis [S.M.]
+18 |   Toney Taylor
+19 |          Green
+20 |            Paul
+
+21 |     Washington
+22 |        Madison
+23 |         Martin
+24 |          Frank
+25 |        Anthony
+26 |          Jacob
+27 |       [Thomas]
+28 |       Gustavus
+29 |           Juba
+30 | Jacob (Little)
+31 |          Eaton
+
+ 1 |      John York
+ 2 |          Lewis
+ 3 |         Japhet
+
+ 4 |           Dave
+ 5 |          Simon
+
+ 6 |      Alexander
+
+ 7 |       Anderson
+ 8 |         Wesley
+ 9 |     John Simon
+10 |         Daniel
+11 |          Allan
+12 |         Willis
+
+13 |           Abel
+14 |         Edmund
+
+ 1 |            Agey
+ 2 |      Rosezetta
+ 3 |         Martha
+ 4 |          Peggy
+ 5 |         Jincey
+ 6 |         Dilcey
+
+ 7 |          Molly
+ 8 |           Mary
+ 9 | Fanny Johnston
+10 |          Nelly
+11 |          Aneky
+12 |         Nancey
+
+13 |          Polly
+14 |        [Sally]
+15 |           Lidy
+16 |          Eliza
+17 |          Becky
+
+
+
+-- | ----------------
+
+21 |     Washington
+22 |        Madison
+23 |         Martin
+24 |          Frank
+25 |        Anthony
+26 |          Jacob
+27 |       [Thomas]
+28 |       Gustavus
+29 |           Juba
+30 | Jacob (Little)
+31 |          Eaton
+
+ 1 |      John York
+ 2 |          Lewis
+ 3 |         Japhet
+
+ 4 |           Dave
+ 5 |          Simon
+
+ 6 |      Alexander
+
+ 7 |       Anderson
+ 8 |         Wesley
+ 9 |     John Simon
+10 |         Daniel
+11 |          Allan
+12 |         Willis
+
+13 |           Abel
+14 |         Edmund
+
+ 1 |            Agey
+ 2 |      Rosezetta
+ 3 |         Martha
+ 4 |          Peggy
+ 5 |         Jincey
+ 6 |         Dilcey
+
+ 7 |          Molly
+ 8 |           Mary
+ 9 | Fanny Johnston
+10 |          Nelly
+11 |          Aneky
+12 |         Nancey
+
+13 |          Polly
+14 |        [Sally]
+15 |           Lidy
+16 |          Eliza
+17 |          Becky
+
+
+  Negro Boys
+
+
+-- | ----------------
+
+ 1 |      John York
+ 2 |          Lewis
+ 3 |         Japhet
+
+ 4 |           Dave
+ 5 |          Simon
+
+ 6 |      Alexander
+
+ 7 |       Anderson
+ 8 |         Wesley
+ 9 |     John Simon
+10 |         Daniel
+11 |          Allan
+12 |         Willis
+
+13 |           Abel
+14 |         Edmund
+
+ 1 |            Agey
+ 2 |      Rosezetta
+ 3 |         Martha
+ 4 |          Peggy
+ 5 |         Jincey
+ 6 |         Dilcey
+
+ 7 |          Molly
+ 8 |           Mary
+ 9 | Fanny Johnston
+10 |          Nelly
+11 |          Aneky
+12 |         Nancey
+
+13 |          Polly
+14 |        [Sally]
+15 |           Lidy
+16 |          Eliza
+17 |          Becky
+
+
+
+
+1849 Jany  as men
+-- | ----------------
+
+ 4 |           Dave
+ 5 |          Simon
+
+ 6 |      Alexander
+
+ 7 |       Anderson
+ 8 |         Wesley
+ 9 |     John Simon
+10 |         Daniel
+11 |          Allan
+12 |         Willis
+
+13 |           Abel
+14 |         Edmund
+
+ 1 |            Agey
+ 2 |      Rosezetta
+ 3 |         Martha
+ 4 |          Peggy
+ 5 |         Jincey
+ 6 |         Dilcey
+
+ 7 |          Molly
+ 8 |           Mary
+ 9 | Fanny Johnston
+10 |          Nelly
+11 |          Aneky
+12 |         Nancey
+
+13 |          Polly
+14 |        [Sally]
+15 |           Lidy
+16 |          Eliza
+17 |          Becky
+
+
+
+-- | ----------------
+
+ 6 |      Alexander
+
+ 7 |       Anderson
+ 8 |         Wesley
+ 9 |     John Simon
+10 |         Daniel
+11 |          Allan
+12 |         Willis
+
+13 |           Abel
+14 |         Edmund
+
+ 1 |            Agey
+ 2 |      Rosezetta
+ 3 |         Martha
+ 4 |          Peggy
+ 5 |         Jincey
+ 6 |         Dilcey
+
+ 7 |          Molly
+ 8 |           Mary
+ 9 | Fanny Johnston
+10 |          Nelly
+11 |          Aneky
+12 |         Nancey
+
+13 |          Polly
+14 |        [Sally]
+15 |           Lidy
+16 |          Eliza
+17 |          Becky
+
+
+
+
+
+-- | ----------------
+
+ 7 |       Anderson
+ 8 |         Wesley
+ 9 |     John Simon
+10 |         Daniel
+11 |          Allan
+12 |         Willis
+
+13 |           Abel
+14 |         Edmund
+
+ 1 |            Agey
+ 2 |      Rosezetta
+ 3 |         Martha
+ 4 |          Peggy
+ 5 |         Jincey
+ 6 |         Dilcey
+
+ 7 |          Molly
+ 8 |           Mary
+ 9 | Fanny Johnston
+10 |          Nelly
+11 |          Aneky
+12 |         Nancey
+
+13 |          Polly
+14 |        [Sally]
+15 |           Lidy
+16 |          Eliza
+17 |          Becky
+
+
+  1849
+-- | ----------------
+
+13 |           Abel
+14 |         Edmund
+
+ 1 |            Agey
+ 2 |      Rosezetta
+ 3 |         Martha
+ 4 |          Peggy
+ 5 |         Jincey
+ 6 |         Dilcey
+
+ 7 |          Molly
+ 8 |           Mary
+ 9 | Fanny Johnston
+10 |          Nelly
+11 |          Aneky
+12 |         Nancey
+
+13 |          Polly
+14 |        [Sally]
+15 |           Lidy
+16 |          Eliza
+17 |          Becky
+
+
+
+
+Negro Women
+-- | ----------------
+
+ 1 |            Agey
+ 2 |      Rosezetta
+ 3 |         Martha
+ 4 |          Peggy
+ 5 |         Jincey
+ 6 |         Dilcey
+
+ 7 |          Molly
+ 8 |           Mary
+ 9 | Fanny Johnston
+10 |          Nelly
+11 |          Aneky
+12 |         Nancey
+
+13 |          Polly
+14 |        [Sally]
+15 |           Lidy
+16 |          Eliza
+17 |          Becky
+
+
+
+-- | ----------------
+
+ 7 |          Molly
+ 8 |           Mary
+ 9 | Fanny Johnston
+10 |          Nelly
+11 |          Aneky
+12 |         Nancey
+
+13 |          Polly
+14 |        [Sally]
+15 |           Lidy
+16 |          Eliza
+17 |          Becky
+
+
+
+-- | ---------
+
+13 |   Polly
+14 | [Sally]
+15 |    Lidy
+16 |   Eliza
+17 |   Becky
+
+
+
+
+
