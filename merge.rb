@@ -341,8 +341,42 @@ last_aligned_index = @alignment_map.keys.max
 if last_aligned_index < @corrected_words.size-1
   # how many alto words follow the last aligned one?
   last_aligned_alto_element = @alignment_map[last_aligned_index]
-
-  # TODO: I'm too foggy for this right now
+  last_alto_index = @alto_words.map{|e| e[:element]}.index(last_aligned_alto_element)
+  
+  # Calculate remaining words in both corrected text and ALTO
+  remaining_corrected_words = @corrected_words.size - 1 - last_aligned_index
+  remaining_alto_words = @alto_words.size - 1 - last_alto_index
+  
+  print "Final span alignment: #{remaining_corrected_words} corrected words, #{remaining_alto_words} alto words remaining\n"
+  
+  if remaining_alto_words > 0 && remaining_corrected_words > 0
+    # Align remaining words if counts match or if we have enough ALTO words
+    if remaining_alto_words == remaining_corrected_words
+      # Perfect match - align one-to-one
+      1.upto(remaining_corrected_words) do |i|
+        corrected_index = last_aligned_index + i
+        alto_index = last_alto_index + i
+        @alignment_map[corrected_index] = @alto_words[alto_index][:element]
+      end
+    elsif remaining_alto_words >= remaining_corrected_words
+      # More or equal ALTO words than corrected words - align first corrected words with first ALTO words
+      1.upto(remaining_corrected_words) do |i|
+        corrected_index = last_aligned_index + i
+        alto_index = last_alto_index + i
+        @alignment_map[corrected_index] = @alto_words[alto_index][:element]
+      end
+    else
+      # Fewer ALTO words than corrected words - align as many as possible
+      1.upto(remaining_alto_words) do |i|
+        corrected_index = last_aligned_index + i
+        alto_index = last_alto_index + i
+        @alignment_map[corrected_index] = @alto_words[alto_index][:element]
+      end
+      print "WARNING: #{remaining_corrected_words - remaining_alto_words} final corrected words could not be aligned\n"
+    end
+  elsif remaining_corrected_words > 0
+    print "WARNING: #{remaining_corrected_words} final corrected words have no corresponding ALTO words\n"
+  end
 end
 
 
