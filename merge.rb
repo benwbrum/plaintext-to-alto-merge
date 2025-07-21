@@ -2,6 +2,7 @@
 require 'nokogiri'
 require 'text'
 require 'pry-byebug'
+require 'optparse'
 
 # TODO check for outliers via y-axis in coordinates instead of ordering
 # TODO change to span-specific checks
@@ -12,6 +13,15 @@ LONG_WORD_LENGTH=3
 LEVENSHTEIN_THRESHOLD=0.45
 
 # TODO consider pruning punctuation to get semi-fuzzy matches
+
+# Global options
+@verbose = false
+@quality_only = false
+
+# Conditional print function
+def vprint(message)
+  print message if @verbose
+end
 
 
 def unique_words_in_array(array)
@@ -43,7 +53,7 @@ def remove_outliers_by_id(alignment_map)
 
     end
   end
-  print "remove_outliers removed #{removal_count} out-of-order elements\n"
+  vprint "remove_outliers removed #{removal_count} out-of-order elements\n"
 end
 
 Y_PROPORTION_THRESHOLD=0.1
@@ -66,7 +76,7 @@ def remove_outliers_by_y(alignment_map)
   removal_count = 0
   bad_ids = y_deltas.select{|k,v| v>Y_PROPORTION_THRESHOLD}.keys
   alignment_map.delete_if {|k,v| bad_ids.include? k}
-  print "remove_outliers_by_y removed #{bad_ids.count} out-of-order elements\n"
+  vprint "remove_outliers_by_y removed #{bad_ids.count} out-of-order elements\n"
 end
 
 def remove_outliers(alignment_map)
@@ -80,10 +90,31 @@ end
 
 
 def setup
-  # Print usage information and exit if the -h option is present
-  if ARGV.include?('-h')
-    puts "Usage: merge.rb CORRECTED_FILE ALTO_FILE"
-    exit
+  # Parse command line options
+  options = {}
+  OptionParser.new do |opts|
+    opts.banner = "Usage: merge.rb [options] CORRECTED_FILE ALTO_FILE"
+    
+    opts.on("-v", "--verbose", "Print debugging output") do |v|
+      @verbose = v
+    end
+    
+    opts.on("-q", "--quality", "Print only final alignment percentages") do |q|
+      @quality_only = q
+    end
+    
+    opts.on("-h", "--help", "Show this help message") do
+      puts opts
+      exit
+    end
+  end.parse!
+
+  # Check for required arguments
+  if ARGV.length != 2
+    puts "Error: Please provide both CORRECTED_FILE and ALTO_FILE"
+    puts "Usage: merge.rb [options] CORRECTED_FILE ALTO_FILE"
+    puts "Use -h or --help for more information"
+    exit 1
   end
 
   # Parse command line arguments
@@ -125,27 +156,27 @@ end
 
 
 def print_alto_text(doc, alignment=true)
-  print "Current ALTO XML text alignment:\n" if alignment
+  vprint "Current ALTO XML text alignment:\n" if alignment
   doc.search('TextLine').each do |line|
     line.search('String').each do |string|
       if !alignment || @alignment_map.values.include?(string)
-        print string['CONTENT']
+        vprint string['CONTENT']
       else
-        print '___'
+        vprint '___'
       end
-      print ' '
+      vprint ' '
     end
-    print "\n"
-  end 
-  print "\n"
+    vprint "\n"
+  end
+  vprint "\n"
 end
 
 def print_span_lengths
-  print "Span lengths to resolve\n"
+  vprint "Span lengths to resolve\n"
   old_key=nil
   @alignment_map.keys.sort.each_with_index do |key,i|
     if i>0 && key-old_key > 1
-      print "#{i}\t#{key-old_key - 1}\t#\n"
+      vprint "#{i}\t#{key-old_key - 1}\t#\n"
     end
     old_key = key
   end
@@ -155,17 +186,17 @@ end
 setup
 
 
-print "Status before merge\n"
-print "Plaintext contents:\n"
-print File.read(@corrected_file)
-print "\n\nALTO contents:\n"
+vprint "Status before merge\n"
+vprint "Plaintext contents:\n"
+vprint File.read(@corrected_file)
+vprint "\n\nALTO contents:\n"
 print_alto_text(@alto_doc, false)
-print "\n\n"
-print "Phase A: Aligning words based on exact matches\n"
+vprint "\n\n"
+vprint "Phase A: Aligning words based on exact matches\n"
 align_range(@corrected_words, @alto_words, 0, 0, 3)
 remove_outliers(@alignment_map)
 
-print "Pass 1 anchor count: #{@alignment_map.size}\t(#{(100 * @alignment_map.size.to_f/@corrected_words.size.to_f).floor}% aligned)\n"
+vprint "Pass 1 anchor count: #{@alignment_map.size}\t(#{(100 * @alignment_map.size.to_f/@corrected_words.size.to_f).floor}% aligned)\n"
 print_alto_text(@alto_doc)
 
 
@@ -207,7 +238,7 @@ while alignment_count < @alignment_map.size do
     end
   end
   remove_outliers(@alignment_map)
-  print "Pass #{pass_number} anchor count: #{@alignment_map.size}\t(#{100 * @alignment_map.size.to_f/@corrected_words.size.to_f}% aligned)\n"
+  vprint "Pass #{pass_number} anchor count: #{@alignment_map.size}\t(#{100 * @alignment_map.size.to_f/@corrected_words.size.to_f}% aligned)\n"
   ordered_ids= @alignment_map.sort.map{|a| a[1]['ID']}.join("\n")
 #  print "Pass #{pass_number} ordered IDs:\n#{ordered_ids}\n\n"
 end
@@ -217,7 +248,7 @@ print_alto_text(@alto_doc)
 print_span_lengths
 
 
-print "Phase B: Aligning words based on fuzzy matching"
+vprint "Phase B: Aligning words based on fuzzy matching"
 previous_index = nil
 @alignment_map.keys.sort.each_with_index do |key,i|
   if i==0
@@ -256,13 +287,13 @@ previous_index = nil
   end
 end
 remove_outliers(@alignment_map)
-print "Phase B anchor count: #{@alignment_map.size}\t(#{100 * @alignment_map.size.to_f/@corrected_words.size.to_f}% aligned)\n"
+vprint "Phase B anchor count: #{@alignment_map.size}\t(#{100 * @alignment_map.size.to_f/@corrected_words.size.to_f}% aligned)\n"
 ordered_ids= @alignment_map.sort.map{|a| a[1]['ID']}.join("\n")
 
 print_alto_text(@alto_doc)
 print_span_lengths
 
-print "Phase C: Aligning words based on word counts\n"
+vprint "Phase C: Aligning words based on word counts\n"
 previous_index = nil
 @alignment_map.keys.sort.each_with_index do |key,i|
   if i==0
@@ -302,7 +333,7 @@ previous_index = nil
           # match each element with the corresponding one, then consolidate the last elements
           if alto_range.size==0
             # TODO: find previous item and append it
-            print "WARNING: no range for #{corrected_range.join(' ')}\n"
+            vprint "WARNING: no range for #{corrected_range.join(' ')}\n"
           else
             corrected_range.each_with_index do |candidate, range_index|
               corrected_index = range_index+start_range
@@ -332,7 +363,7 @@ if first_aligned_index > 0
       @alignment_map[i]=@alto_words[i][:element]
     end
   else
-    print "WARNING: unequal number of leading elements in alto vs. corrected text\n"
+    vprint "WARNING: unequal number of leading elements in alto vs. corrected text\n"
   end 
 end
 
@@ -347,7 +378,7 @@ if last_aligned_index < @corrected_words.size-1
   remaining_corrected_words = @corrected_words.size - 1 - last_aligned_index
   remaining_alto_words = @alto_words.size - 1 - last_alto_index
   
-  print "Final span alignment: #{remaining_corrected_words} corrected words, #{remaining_alto_words} alto words remaining\n"
+  vprint "Final span alignment: #{remaining_corrected_words} corrected words, #{remaining_alto_words} alto words remaining\n"
   
   if remaining_alto_words > 0 && remaining_corrected_words > 0
     # Align remaining words if counts match or if we have enough ALTO words
@@ -372,18 +403,19 @@ if last_aligned_index < @corrected_words.size-1
         alto_index = last_alto_index + i
         @alignment_map[corrected_index] = @alto_words[alto_index][:element]
       end
-      print "WARNING: #{remaining_corrected_words - remaining_alto_words} final corrected words could not be aligned\n"
+      vprint "WARNING: #{remaining_corrected_words - remaining_alto_words} final corrected words could not be aligned\n"
     end
   elsif remaining_corrected_words > 0
-    print "WARNING: #{remaining_corrected_words} final corrected words have no corresponding ALTO words\n"
+    vprint "WARNING: #{remaining_corrected_words} final corrected words have no corresponding ALTO words\n"
   end
 end
 
 
 print_alto_text(@alto_doc)
-print "Alignment count after alignment by word count: #{@alignment_map.size}\t(#{100 * @alignment_map.size.to_f/@corrected_words.size.to_f}% aligned)\n"
+@final_alignment_percentage = 100 * @alignment_map.size.to_f/@corrected_words.size.to_f
+vprint "Alignment count after alignment by word count: #{@alignment_map.size}\t(#{@final_alignment_percentage}% aligned)\n"
 
-print "Phase D: Merging aligned words into ALTO-XML\n"
+vprint "Phase D: Merging aligned words into ALTO-XML\n"
 unaligned_corrected=[]
 @corrected_words.each_with_index do |corrected,i|
   if @alignment_map[i]
@@ -397,7 +429,7 @@ print_alto_text(@alto_doc)
 # print "Phase E: Merging unaligned words into ALTO-XML\n"
 # binding.pry
 
-print "Phase F: Remove unaligned XML elements"
+vprint "Phase F: Remove unaligned XML elements"
 aligned_elements = @alignment_map.values
 @alto_words.each do |e|
   unless aligned_elements.include?(e[:element])
@@ -405,6 +437,11 @@ aligned_elements = @alignment_map.values
   end
 end
 print_alto_text(@alto_doc)
+
+# Output final alignment percentage if in quality mode
+if @quality_only
+  puts "#{@final_alignment_percentage.round(2)}%"
+end
 
 # Save the updated ALTO-XML file
 #File.write(alto_file, alto_doc.to_xml)
