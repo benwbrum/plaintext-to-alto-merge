@@ -167,7 +167,7 @@ def print_alto_text(doc, alignment=true)
       vprint ' '
     end
     vprint "\n"
-  end
+  end 
   vprint "\n"
 end
 
@@ -274,7 +274,7 @@ previous_index = nil
         fuzzy_match_array = long_words.map{|w| [w[:string], Text::Levenshtein.distance(candidate, w[:string]).to_f/candidate.length]}
         sorted_fuzzy_matches = fuzzy_match_array.sort{|a,b| a[1]<=>b[1]}
         best_match = sorted_fuzzy_matches.first
-        if best_match[1] < LEVENSHTEIN_THRESHOLD
+        if best_match && best_match[1] < LEVENSHTEIN_THRESHOLD
           # print "#{best_match[1].round(2)}\t#{candidate}\t#{best_match[0]}\n" if best_match[1] < 0.45
           alto_range_index = alto_range.index {|element| element[:string] == best_match[0]}
           corrected_index = corrected_range.index(candidate)+start_range
@@ -319,9 +319,9 @@ previous_index = nil
 
         alto_range = @alto_words[alto_start..alto_end]
 
-        print("#{corrected_range.count}\tA\t#{alto_range.map{|e| e[:string]}.join(' ')}\n\tC\t#{corrected_range.join(' ')}\n\n")
+        vprint("#{corrected_range.count}\tA\t#{alto_range.map{|e| e[:string]}.join(' ')}\n\tC\t#{corrected_range.join(' ')}\n\n")
         if !alto_range.map{|e| e[:string]}.join('').match? /\S/
-          print("WARNING: Misalignment at index #{current_index}.  Corrected text: #{corrected_range.join(' ')}\n")
+          vprint("WARNING: Misalignment at index #{current_index}.  Corrected text: #{corrected_range.join(' ')}\n")
         end
         if alto_range.count == corrected_range.count
           corrected_range.each_with_index do |candidate, range_index|
@@ -329,7 +329,7 @@ previous_index = nil
             @alignment_map[corrected_index] = alto_range[range_index][:element]
           end
         else
-          print("Unequal alignment #{corrected_range.count}::#{alto_range.count}:\n#{corrected_range.join(' ')}\ninto\n#{alto_range.map{|e| e[:string]}.join(' ')}\n\n")
+          vprint("Unequal alignment #{corrected_range.count}::#{alto_range.count}:\n#{corrected_range.join(' ')}\ninto\n#{alto_range.map{|e| e[:string]}.join(' ')}\n\n")
           # match each element with the corresponding one, then consolidate the last elements
           if alto_range.size==0
             # TODO: find previous item and append it
@@ -337,11 +337,12 @@ previous_index = nil
           else
             corrected_range.each_with_index do |candidate, range_index|
               corrected_index = range_index+start_range
-              if range_index <= alto_range.size
-                # this is the last of the ALTO elements; consolidate all remaining corrected words into the last element
-              else
-                # if this is the last of the corrected words, leave remaining alto elements unmapped.  Regardless, map the corresponding index
+              if range_index < alto_range.size
+                # map the corresponding index if within bounds
                 @alignment_map[corrected_index] = alto_range[range_index][:element]
+              else
+                # this is beyond the ALTO elements; consolidate remaining corrected words into the last element
+                # (leave unmapped for now as the comment suggests)
               end
             end
           end          

@@ -5,15 +5,12 @@
 def test_alignment(corrected_file, alto_file)
   puts "Testing alignment for #{corrected_file}"
   
-  # Capture output and extract alignment rate using quality mode
+  # Capture output using quality mode to get just the percentage
   output = `ruby merge.rb --quality #{corrected_file} #{alto_file} 2>&1`
   
-  # Find the final alignment rate (should be the last line with percentage)
-  lines = output.split("\n")
-  percentage_line = lines.last
-  
-  if percentage_line && percentage_line.match(/(\d+\.\d+)%/)
-    alignment_percentage = percentage_line.match(/(\d+\.\d+)%/)[1].to_f
+  # The output should just be the percentage
+  if output.strip.match(/^(\d+\.\d+)%$/)
+    alignment_percentage = $1.to_f
     puts "Final alignment rate: #{alignment_percentage}%"
     
     if alignment_percentage >= 95.0
@@ -24,7 +21,7 @@ def test_alignment(corrected_file, alto_file)
       return false
     end
   else
-    puts "✗ ERROR: Could not find final alignment rate"
+    puts "✗ ERROR: Could not parse alignment rate from output: '#{output.strip}'"
     return false
   end
 end
