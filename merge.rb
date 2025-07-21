@@ -274,7 +274,7 @@ previous_index = nil
         fuzzy_match_array = long_words.map{|w| [w[:string], Text::Levenshtein.distance(candidate, w[:string]).to_f/candidate.length]}
         sorted_fuzzy_matches = fuzzy_match_array.sort{|a,b| a[1]<=>b[1]}
         best_match = sorted_fuzzy_matches.first
-        if best_match[1] < LEVENSHTEIN_THRESHOLD
+        if best_match && best_match[1] < LEVENSHTEIN_THRESHOLD
           # print "#{best_match[1].round(2)}\t#{candidate}\t#{best_match[0]}\n" if best_match[1] < 0.45
           alto_range_index = alto_range.index {|element| element[:string] == best_match[0]}
           corrected_index = corrected_range.index(candidate)+start_range
@@ -337,11 +337,12 @@ previous_index = nil
           else
             corrected_range.each_with_index do |candidate, range_index|
               corrected_index = range_index+start_range
-              if range_index <= alto_range.size
-                # this is the last of the ALTO elements; consolidate all remaining corrected words into the last element
-              else
-                # if this is the last of the corrected words, leave remaining alto elements unmapped.  Regardless, map the corresponding index
+              if range_index < alto_range.size
+                # map the corresponding index if within bounds
                 @alignment_map[corrected_index] = alto_range[range_index][:element]
+              else
+                # this is beyond the ALTO elements; consolidate remaining corrected words into the last element
+                # (leave unmapped for now as the comment suggests)
               end
             end
           end          
