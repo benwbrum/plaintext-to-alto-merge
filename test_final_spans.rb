@@ -5,8 +5,8 @@
 def test_final_spans_alignment(corrected_file, alto_file, test_name)
   puts "Testing final spans alignment for #{test_name}"
   
-  # Capture output
-  output = `ruby merge.rb #{corrected_file} #{alto_file} 2>&1`
+  # Capture output with verbose flag to see final span alignment
+  output = `ruby merge.rb --verbose #{corrected_file} #{alto_file} 2>&1`
   
   # Check if final span alignment was performed
   final_span_line = output.lines.grep(/Final span alignment:/).last
