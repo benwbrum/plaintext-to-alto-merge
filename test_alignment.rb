@@ -5,31 +5,23 @@
 def test_alignment(corrected_file, alto_file)
   puts "Testing alignment for #{corrected_file}"
   
-  # Capture output and extract alignment rate
-  output = `ruby merge.rb #{corrected_file} #{alto_file} 2>&1`
+  # Capture output using quality mode to get just the percentage
+  output = `ruby merge.rb --quality #{corrected_file} #{alto_file} 2>&1`
   
-  # Find the final alignment rate
-  final_rate = output.lines.grep(/Phase E anchor count/).last
-  
-  if final_rate
-    rate = final_rate.match(/(\d+\.\d+)% aligned/)
-    if rate
-      alignment_percentage = rate[1].to_f
-      puts "Final alignment rate: #{alignment_percentage}%"
-      
-      if alignment_percentage >= 95.0
-        puts "✓ SUCCESS: Alignment rate meets target (>95%)"
-        return true
-      else
-        puts "✗ FAILURE: Alignment rate below target (#{alignment_percentage}% < 95%)"
-        return false
-      end
+  # The output should just be the percentage
+  if output.strip.match(/^(\d+\.\d+)%$/)
+    alignment_percentage = $1.to_f
+    puts "Final alignment rate: #{alignment_percentage}%"
+    
+    if alignment_percentage >= 95.0
+      puts "✓ SUCCESS: Alignment rate meets target (>95%)"
+      return true
     else
-      puts "✗ ERROR: Could not parse alignment rate"
+      puts "✗ FAILURE: Alignment rate below target (#{alignment_percentage}% < 95%)"
       return false
     end
   else
-    puts "✗ ERROR: Could not find final alignment rate"
+    puts "✗ ERROR: Could not parse alignment rate from output: '#{output.strip}'"
     return false
   end
 end
