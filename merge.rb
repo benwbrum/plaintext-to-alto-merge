@@ -359,13 +359,35 @@ if first_aligned_index > 0
   # how many alto words precede the first aligned one?
   first_aligned_alto_element = @alignment_map[first_aligned_index]
   index_in_alto = @alto_words.map{|e| e[:element]}.index(@alignment_map[first_aligned_index])
+  
+  # Get the ranges for initial spans
+  corrected_range = @corrected_words[0..first_aligned_index-1]
+  alto_range = @alto_words[0..index_in_alto-1]
+  
+  vprint "Initial span alignment: #{corrected_range.count} corrected words, #{alto_range.count} alto words\n"
+  
   if index_in_alto == first_aligned_index
+    # Equal counts - simple 1:1 mapping
     0.upto(index_in_alto-1) do |i|
       @alignment_map[i]=@alto_words[i][:element]
     end
-  else
-    vprint "WARNING: unequal number of leading elements in alto vs. corrected text\n"
-  end 
+  elsif alto_range.count > 0 && corrected_range.count > 0
+    # Unequal counts - handle consolidation like medial spans
+    vprint("Unequal initial alignment #{corrected_range.count}::#{alto_range.count}:\n#{corrected_range.join(' ')}\ninto\n#{alto_range.map{|e| e[:string]}.join(' ')}\n\n")
+    
+    corrected_range.each_with_index do |candidate, range_index|
+      corrected_index = range_index
+      if range_index < alto_range.size
+        # map the corresponding index if within bounds
+        @alignment_map[corrected_index] = alto_range[range_index][:element]
+      else
+        # this is beyond the ALTO elements; consolidate remaining corrected words into the last element
+        @alignment_map[corrected_index] = alto_range.last[:element]
+      end
+    end
+  elsif corrected_range.count > 0
+    vprint "WARNING: #{corrected_range.count} initial corrected words have no corresponding ALTO words\n"
+  end
 end
 
 
