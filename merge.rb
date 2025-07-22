@@ -449,8 +449,23 @@ unaligned_corrected=[]
 end
 print_alto_text(@alto_doc)
 
-# print "Phase E: Merging unaligned words into ALTO-XML\n"
-# binding.pry
+vprint "Phase E: Consolidating multiple corrected words into single ALTO elements\n"
+# Group corrected words by their mapped ALTO element
+alto_element_to_words = {}
+@corrected_words.each_with_index do |corrected, i|
+  if @alignment_map[i]
+    alto_element = @alignment_map[i]
+    alto_element_to_words[alto_element] ||= []
+    alto_element_to_words[alto_element] << corrected
+  end
+end
+
+# Set CONTENT to concatenated words for each ALTO element
+alto_element_to_words.each do |alto_element, words|
+  alto_element['CONTENT'] = words.join(' ')
+end
+
+print_alto_text(@alto_doc)
 
 vprint "Phase F: Remove unaligned XML elements"
 aligned_elements = @alignment_map.values
