@@ -11,6 +11,8 @@ require 'optparse'
 
 LONG_WORD_LENGTH=3
 LEVENSHTEIN_THRESHOLD=0.45
+# More lenient threshold for longer words in poor quality text
+LEVENSHTEIN_THRESHOLD_LONG=0.60
 
 # TODO consider pruning punctuation to get semi-fuzzy matches
 
@@ -274,8 +276,12 @@ previous_index = nil
         fuzzy_match_array = long_words.map{|w| [w[:string], Text::Levenshtein.distance(candidate, w[:string]).to_f/candidate.length]}
         sorted_fuzzy_matches = fuzzy_match_array.sort{|a,b| a[1]<=>b[1]}
         best_match = sorted_fuzzy_matches.first
-        if best_match && best_match[1] < LEVENSHTEIN_THRESHOLD
-          # print "#{best_match[1].round(2)}\t#{candidate}\t#{best_match[0]}\n" if best_match[1] < 0.45
+        
+        # Use more lenient threshold for longer words (likely more reliable matches)
+        threshold = candidate.length >= 6 ? LEVENSHTEIN_THRESHOLD_LONG : LEVENSHTEIN_THRESHOLD
+        
+        if best_match && best_match[1] < threshold
+          vprint "Fuzzy match: #{candidate} -> #{best_match[0]} (#{best_match[1].round(3)})\n" if @verbose
           alto_range_index = alto_range.index {|element| element[:string] == best_match[0]}
           corrected_index = corrected_range.index(candidate)+start_range
           alto_words_index = alto_range_index + alto_start
@@ -289,6 +295,64 @@ end
 remove_outliers(@alignment_map)
 vprint "Phase B anchor count: #{@alignment_map.size}\t(#{100 * @alignment_map.size.to_f/@corrected_words.size.to_f}% aligned)\n"
 ordered_ids= @alignment_map.sort.map{|a| a[1]['ID']}.join("\n")
+
+print_alto_text(@alto_doc)
+print_span_lengths
+
+vprint "Phase B2: Additional aggressive fuzzy matching for poor quality text\n"
+# Try even more aggressive fuzzy matching for remaining unaligned words
+previous_index = nil
+@alignment_map.keys.sort.each_with_index do |key,i|
+  if i==0
+    previous_index=key
+  else
+    current_index = key
+    # get the range between the two
+    start_range = previous_index+1
+    end_range = current_index-1
+    
+    corrected_range = @corrected_words[start_range..end_range]
+    # Only process if there are still unaligned words in this range
+    unaligned_in_range = corrected_range.select.with_index { |word, idx| !@alignment_map[start_range + idx] }
+    
+    if unaligned_in_range.any?
+      alto_start = index_within_alto(@alignment_map[previous_index])
+      alto_end = index_within_alto(@alignment_map[current_index])
+      alto_range = @alto_words[alto_start..alto_end]
+      
+      if alto_range.size > 0
+        # Try very aggressive fuzzy matching for remaining words
+        unaligned_in_range.each do |candidate|
+          next if candidate.length < 3  # Skip very short words
+          
+          corrected_index = corrected_range.index(candidate) + start_range
+          next if @alignment_map[corrected_index]  # Skip if already aligned
+          
+          # Look at all ALTO words in range, not just unaligned ones
+          all_alto_in_range = alto_range.select{|w| w[:string].length >= 2}
+          fuzzy_match_array = all_alto_in_range.map{|w| [w[:string], Text::Levenshtein.distance(candidate, w[:string]).to_f/candidate.length]}
+          sorted_fuzzy_matches = fuzzy_match_array.sort{|a,b| a[1]<=>b[1]}
+          best_match = sorted_fuzzy_matches.first
+          
+          # Very aggressive threshold for poor quality text
+          aggressive_threshold = 0.75
+          
+          if best_match && best_match[1] < aggressive_threshold
+            # Check if this ALTO element is not already well-aligned to something else
+            alto_element = alto_range.find {|w| w[:string] == best_match[0]}
+            if alto_element && !@alignment_map.values.include?(alto_element[:element])
+              @alignment_map[corrected_index] = alto_element[:element]
+              vprint "Aggressive fuzzy match: #{candidate} -> #{best_match[0]} (#{best_match[1].round(3)})\n" if @verbose
+            end
+          end
+        end
+      end
+    end
+    previous_index=key
+  end
+end
+remove_outliers(@alignment_map)
+vprint "Phase B2 anchor count: #{@alignment_map.size}\t(#{100 * @alignment_map.size.to_f/@corrected_words.size.to_f}% aligned)\n"
 
 print_alto_text(@alto_doc)
 print_span_lengths
@@ -332,17 +396,66 @@ previous_index = nil
           vprint("Unequal alignment #{corrected_range.count}::#{alto_range.count}:\n#{corrected_range.join(' ')}\ninto\n#{alto_range.map{|e| e[:string]}.join(' ')}\n\n")
           # match each element with the corresponding one, then consolidate the last elements
           if alto_range.size==0
-            # TODO: find previous item and append it
+            # For missing spans, try to find nearest ALTO elements to interpolate
             vprint "WARNING: no range for #{corrected_range.join(' ')}\n"
+            
+            # Try to find ALTO elements around this span for potential mapping
+            previous_alto_index = @alto_words.map{|e| e[:element]}.index(@alignment_map[previous_index])
+            current_alto_index = @alto_words.map{|e| e[:element]}.index(@alignment_map[current_index])
+            
+            if previous_alto_index && current_alto_index && current_alto_index > previous_alto_index + 1
+              # There are ALTO elements between the anchors, try to use them
+              available_alto = @alto_words[(previous_alto_index + 1)..(current_alto_index - 1)]
+              if available_alto.any?
+                vprint "Found #{available_alto.size} available ALTO elements for interpolation\n"
+                # Map as many corrected words as possible to available ALTO elements
+                corrected_range.each_with_index do |candidate, range_index|
+                  corrected_index = range_index + start_range
+                  if range_index < available_alto.size
+                    @alignment_map[corrected_index] = available_alto[range_index][:element]
+                    vprint "Interpolated: #{candidate} -> #{available_alto[range_index][:string]}\n" if @verbose
+                  end
+                end
+              end
+            end
           else
-            corrected_range.each_with_index do |candidate, range_index|
-              corrected_index = range_index+start_range
-              if range_index < alto_range.size
-                # map the corresponding index if within bounds
-                @alignment_map[corrected_index] = alto_range[range_index][:element]
-              else
-                # this is beyond the ALTO elements; consolidate remaining corrected words into the last element
-                # (leave unmapped for now as the comment suggests)
+            # Try to make intelligent partial alignments for unequal spans
+            min_size = [corrected_range.size, alto_range.size].min
+            max_size = [corrected_range.size, alto_range.size].max
+            
+            # If the difference is small (≤2), do one-to-one mapping for available pairs
+            if max_size - min_size <= 2
+              corrected_range.each_with_index do |candidate, range_index|
+                corrected_index = range_index+start_range
+                if range_index < alto_range.size
+                  # map the corresponding index if within bounds
+                  @alignment_map[corrected_index] = alto_range[range_index][:element]
+                else
+                  # For remaining corrected words, try to map to last available ALTO element
+                  if alto_range.size > 0
+                    @alignment_map[corrected_index] = alto_range[-1][:element]
+                  end
+                end
+              end
+            else
+              # For larger differences, try fuzzy matching within the span
+              corrected_range.each_with_index do |candidate, range_index|
+                corrected_index = range_index+start_range
+                if range_index < alto_range.size
+                  # Direct mapping for initial words
+                  @alignment_map[corrected_index] = alto_range[range_index][:element]
+                else
+                  # Try to find fuzzy matches for remaining words in the span
+                  remaining_alto = alto_range[min_size..-1] || []
+                  if remaining_alto.any?
+                    fuzzy_matches = remaining_alto.map{|w| [w, Text::Levenshtein.distance(candidate, w[:string]).to_f/candidate.length]}
+                    best_match = fuzzy_matches.min_by{|_, dist| dist}
+                    if best_match && best_match[1] < LEVENSHTEIN_THRESHOLD_LONG
+                      @alignment_map[corrected_index] = best_match[0][:element]
+                      vprint "Span fuzzy match: #{candidate} -> #{best_match[0][:string]} (#{best_match[1].round(3)})\n" if @verbose
+                    end
+                  end
+                end
               end
             end
           end          
@@ -416,7 +529,41 @@ print_alto_text(@alto_doc)
 @final_alignment_percentage = 100 * @alignment_map.size.to_f/@corrected_words.size.to_f
 vprint "Alignment count after alignment by word count: #{@alignment_map.size}\t(#{@final_alignment_percentage}% aligned)\n"
 
-vprint "Phase D: Merging aligned words into ALTO-XML\n"
+vprint "Phase D: Final aggressive alignment for remaining words\n"
+# Try to align any remaining unaligned words by using available ALTO elements
+unaligned_corrected_indices = (0...@corrected_words.size).select { |i| !@alignment_map[i] }
+aligned_alto_elements = @alignment_map.values
+unaligned_alto_elements = @alto_words.select { |w| !aligned_alto_elements.include?(w[:element]) }
+
+vprint "Remaining unaligned: #{unaligned_corrected_indices.size} corrected words, #{unaligned_alto_elements.size} ALTO elements\n"
+
+if unaligned_corrected_indices.any? && unaligned_alto_elements.any?
+  # Try to match remaining words using position and fuzzy matching
+  unaligned_corrected_indices.each do |corrected_index|
+    candidate = @corrected_words[corrected_index]
+    next if candidate.length < 3  # Skip very short words
+    
+    # Find best fuzzy match among remaining ALTO elements
+    fuzzy_matches = unaligned_alto_elements.map do |alto_word|
+      distance = Text::Levenshtein.distance(candidate, alto_word[:string]).to_f / candidate.length
+      [alto_word, distance]
+    end
+    
+    best_match = fuzzy_matches.min_by { |_, distance| distance }
+    
+    # Very generous threshold for final cleanup
+    if best_match && best_match[1] < 0.85
+      @alignment_map[corrected_index] = best_match[0][:element]
+      unaligned_alto_elements.delete(best_match[0])
+      vprint "Final alignment: #{candidate} -> #{best_match[0][:string]} (#{best_match[1].round(3)})\n" if @verbose
+    end
+  end
+end
+
+vprint "Final anchor count after aggressive alignment: #{@alignment_map.size}\t(#{100 * @alignment_map.size.to_f/@corrected_words.size.to_f}% aligned)\n"
+@final_alignment_percentage = 100 * @alignment_map.size.to_f/@corrected_words.size.to_f
+
+vprint "Phase E: Merging aligned words into ALTO-XML\n"
 unaligned_corrected=[]
 @corrected_words.each_with_index do |corrected,i|
   if @alignment_map[i]
