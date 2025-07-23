@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<alto xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="http://www.loc.gov/standards/alto/ns-v4#"
+      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+      xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
+      xmlns:page="http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15"
+      xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+      xmlns:local="local"
+      xsi:schemaLocation="http://www.loc.gov/standards/alto/ns-v4# https://www.loc.gov/standards/alto/v4/alto.xsd">
+   <Description>
+      <MeasurementUnit>pixel</MeasurementUnit>
+      <sourceImageInformation>
+         <fileName>orig_proc-api-23090b15-2895-4d4d-932e-ccdf2ea1559d.jpg</fileName>
+      </sourceImageInformation>
+      <Processing ID="IdOcr">
+         <processingDateTime>2024-05-29T16:54:34.457+02:00</processingDateTime>
+         <processingSoftware>
+            <softwareCreator>READ COOP</softwareCreator>
+            <softwareName>Transkribus</softwareName>
+         </processingSoftware>
+      </Processing>
+   </Description>
+   <Layout>
+      <Page ID="Page1" PHYSICAL_IMG_NR="1" HEIGHT="2349" WIDTH="3698">
+         <TopMargin HEIGHT="0" WIDTH="3698" VPOS="0" HPOS="0"/>
+         <LeftMargin HEIGHT="2349" WIDTH="0" VPOS="0" HPOS="0"/>
+         <RightMargin HEIGHT="2349" WIDTH="0" VPOS="0" HPOS="3698"/>
+         <BottomMargin HEIGHT="0" WIDTH="3698" VPOS="2349" HPOS="0"/>
+         <PrintSpace HEIGHT="2349" WIDTH="3698" VPOS="0" HPOS="0">
+            <TextBlock ID="tr_1" HEIGHT="1025" WIDTH="1466" VPOS="127" HPOS="44">
+               <Shape>
+                  <Polygon POINTS="44,127 44,1152 1510,1152 1510,127"/>
+               </Shape>
+               <TextLine ID="tr_1_tl_1"
+                         BASELINE="104,188 174,194 244,196 314,201 385,206 455,211 525,211 596,214 666,217 736,220 807,223 877,220 947,221 1017,221 1088,223 1158,224 1228,231 1299,234 1369,235 1439,232 1510,226"
+                         HEIGHT="218"
+                         WIDTH="1409"
+                         VPOS="63"
+                         HPOS="93">
+                  <String HEIGHT="218"
+                          WIDTH="423"
+                          VPOS="63"
+                          HPOS="46"
+                          CONTENT="Refer"/>
+                  <SP HEIGHT="218" WIDTH="47" VPOS="63" HPOS="469"/>
+                  <String HEIGHT="218" WIDTH="282" VPOS="63" HPOS="328" CONTENT="to"/>
+                  <SP HEIGHT="218" WIDTH="47" VPOS="63" HPOS="610"/>
+                  <String HEIGHT="218"
+                          WIDTH="611"
+                          VPOS="63"
+                          HPOS="469"
+                          CONTENT="Tuninger."/>
+                  <SP HEIGHT="218" WIDTH="47" VPOS="63" HPOS="1079"/>
+                  <String HEIGHT="218"
+                          WIDTH="423"
+                          VPOS="63"
+                          HPOS="938"
+                          CONTENT="Humb."/>
+                  <SP HEIGHT="218" WIDTH="47" VPOS="63" HPOS="1361"/>
+                  <String HEIGHT="218" WIDTH="282" VPOS="63" HPOS="1220" CONTENT="It"/>
+                  <SP HEIGHT="218" WIDTH="47" VPOS="63" HPOS="1502"/>
+                  <String HEIGHT="218" WIDTH="188" VPOS="63" HPOS="1314" CONTENT="is"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_2"
+                         BASELINE="44,310 70,316 96,321 122,324 148,329 174,334 200,340 226,343 252,343 278,344 304,346 330,349 356,352 382,352 408,352 434,352 460,356 487,362"
+                         HEIGHT="215"
+                         WIDTH="457"
+                         VPOS="225"
+                         HPOS="28">
+                  <String HEIGHT="215" WIDTH="274" VPOS="225" HPOS="0" CONTENT="in"/>
+                  <SP HEIGHT="215" WIDTH="46" VPOS="225" HPOS="257"/>
+                  <String HEIGHT="215"
+                          WIDTH="320"
+                          VPOS="225"
+                          HPOS="119"
+                          CONTENT="gut"/>
+                  <SP HEIGHT="215" WIDTH="46" VPOS="225" HPOS="439"/>
+                  <String HEIGHT="215"
+                          WIDTH="229"
+                          VPOS="225"
+                          HPOS="257"
+                          CONTENT="th."/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_3"
+                         BASELINE="487,362 537,357 588,351 639,349 690,351 741,354 792,355 842,349 893,350 944,357 995,358 1046,360 1097,363 1148,364 1198,364 1249,364 1300,367 1351,368 1402,367 1453,364 1504,370"
+                         HEIGHT="170"
+                         WIDTH="1025"
+                         VPOS="259"
+                         HPOS="475">
+                  <String HEIGHT="170" WIDTH="267" VPOS="259" HPOS="430" CONTENT="of"/>
+                  <SP HEIGHT="170" WIDTH="45" VPOS="259" HPOS="698"/>
+                  <String HEIGHT="170"
+                          WIDTH="357"
+                          VPOS="259"
+                          HPOS="564"
+                          CONTENT="this"/>
+                  <SP HEIGHT="170" WIDTH="45" VPOS="259" HPOS="921"/>
+                  <String HEIGHT="170"
+                          WIDTH="312"
+                          VPOS="259"
+                          HPOS="787"
+                          CONTENT="she"/>
+                  <SP HEIGHT="170" WIDTH="45" VPOS="259" HPOS="1099"/>
+                  <String HEIGHT="170" WIDTH="267" VPOS="259" HPOS="965" CONTENT="be"/>
+                  <SP HEIGHT="170" WIDTH="45" VPOS="259" HPOS="1233"/>
+                  <String HEIGHT="170"
+                          WIDTH="401"
+                          VPOS="259"
+                          HPOS="1099"
+                          CONTENT="done,"/>
+                  <SP HEIGHT="170" WIDTH="45" VPOS="259" HPOS="1500"/>
+                  <String HEIGHT="170"
+                          WIDTH="178"
+                          VPOS="259"
+                          HPOS="1322"
+                          CONTENT="as"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_4"
+                         BASELINE="62,468 87,471 112,474 138,476 163,478 189,482 214,484 240,486 265,488 291,489 316,491 342,493 367,494 393,495 418,495 444,495 469,495 495,495"
+                         HEIGHT="162"
+                         WIDTH="445"
+                         VPOS="376"
+                         HPOS="49">
+                  <String HEIGHT="162"
+                          WIDTH="544"
+                          VPOS="376"
+                          HPOS="0"
+                          CONTENT="requested"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_5"
+                         BASELINE="605,709 631,706 658,704 684,702 711,694 737,688 764,687 790,685 817,683"
+                         HEIGHT="237"
+                         WIDTH="242"
+                         VPOS="491"
+                         HPOS="593">
+                  <String HEIGHT="237" WIDTH="484" VPOS="491" HPOS="351" CONTENT="O."/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_6"
+                         BASELINE="56,662 81,668 107,673 133,676 158,681 184,686 210,689 235,693 261,698 287,702 312,704 338,709 364,716 389,716 415,716 441,716 466,717 492,719 518,712 544,703"
+                         HEIGHT="278"
+                         WIDTH="512"
+                         VPOS="538"
+                         HPOS="35">
+                  <String HEIGHT="278" WIDTH="448" VPOS="538" HPOS="0" CONTENT="Jan"/>
+                  <SP HEIGHT="278" WIDTH="64" VPOS="538" HPOS="419"/>
+                  <String HEIGHT="278"
+                          WIDTH="384"
+                          VPOS="538"
+                          HPOS="163"
+                          CONTENT="4/60"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_7"
+                         BASELINE="152,901 190,904 229,904 267,902 306,901 344,903 383,907 421,910 460,910 498,912 537,911 575,910 614,910 652,910 691,910 729,913 768,913 806,915 845,916 883,916 922,919"
+                         HEIGHT="160"
+                         WIDTH="777"
+                         VPOS="804"
+                         HPOS="141">
+                  <String HEIGHT="160"
+                          WIDTH="272"
+                          VPOS="804"
+                          HPOS="102"
+                          CONTENT="The"/>
+                  <SP HEIGHT="160" WIDTH="39" VPOS="804" HPOS="374"/>
+                  <String HEIGHT="160"
+                          WIDTH="466"
+                          VPOS="804"
+                          HPOS="258"
+                          CONTENT="Surveyor"/>
+                  <SP HEIGHT="160" WIDTH="39" VPOS="804" HPOS="724"/>
+                  <String HEIGHT="160"
+                          WIDTH="350"
+                          VPOS="804"
+                          HPOS="568"
+                          CONTENT="General"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_8"
+                         BASELINE="307,990 342,995 378,994 413,993 449,994 484,996 520,998 555,1002 591,1006 626,1008 662,1011 697,1013 733,1016 768,1017 804,1017 839,1020 875,1018 910,1018 946,1020 981,1020 1017,1014"
+                         HEIGHT="164"
+                         WIDTH="721"
+                         VPOS="916"
+                         HPOS="294">
+                  <String HEIGHT="164"
+                          WIDTH="288"
+                          VPOS="916"
+                          HPOS="258"
+                          CONTENT="B.C."/>
+                  <SP HEIGHT="164" WIDTH="36" VPOS="916" HPOS="546"/>
+                  <String HEIGHT="164" WIDTH="216" VPOS="916" HPOS="438" CONTENT="4."/>
+                  <SP HEIGHT="164" WIDTH="36" VPOS="916" HPOS="655"/>
+                  <String HEIGHT="164"
+                          WIDTH="397"
+                          VPOS="916"
+                          HPOS="546"
+                          CONTENT="January"/>
+                  <SP HEIGHT="164" WIDTH="36" VPOS="916" HPOS="943"/>
+                  <String HEIGHT="164"
+                          WIDTH="216"
+                          VPOS="916"
+                          HPOS="799"
+                          CONTENT="1869"/>
+               </TextLine>
+               <TextLine ID="tr_1_tl_9"
+                         BASELINE="450,1113 477,1113 505,1114 532,1118 560,1120 587,1122 615,1122 642,1123 670,1125 698,1125"
+                         HEIGHT="125"
+                         WIDTH="258"
+                         VPOS="1043"
+                         HPOS="438">
+                  <String HEIGHT="125"
+                          WIDTH="361"
+                          VPOS="1043"
+                          HPOS="386"
+                          CONTENT="Ao."/>
+                  <SP HEIGHT="125" WIDTH="52" VPOS="1043" HPOS="748"/>
+                  <String HEIGHT="125" WIDTH="155" VPOS="1043" HPOS="541" CONTENT="m"/>
+               </TextLine>
+            </TextBlock>
+         </PrintSpace>
+      </Page>
+   </Layout>
+</alto>
