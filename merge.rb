@@ -25,6 +25,21 @@ def vprint(message)
   print message if @verbose
 end
 
+def is_valid_alto_xml?(doc)
+  # Check if the root element is 'alto' or if it has ALTO namespace
+  root = doc.root
+  return false unless root
+  
+  # Check for ALTO root element or namespace
+  if root.name == 'alto' || root.namespace&.href&.include?('alto')
+    return true
+  end
+  
+  # Alternative check: look for elements with CONTENT attributes (typical of ALTO)
+  content_elements = doc.xpath('//*[@CONTENT]')
+  return content_elements.size > 0
+end
+
 
 def unique_words_in_array(array)
   array.tally.select{|k,v| v==1}.keys  
@@ -125,6 +140,14 @@ def setup
 
   # Parse the ALTO-XML file using Nokogiri
   @alto_doc = Nokogiri::XML(File.read(@alto_file))
+
+  # Validate that this is a proper ALTO-XML file
+  unless is_valid_alto_xml?(@alto_doc)
+    puts "Error: The provided XML file is not a valid ALTO-XML file."
+    puts "Expected ALTO-XML format with elements containing CONTENT attributes."
+    puts "Found: #{@alto_doc.root.name if @alto_doc.root}" 
+    exit 1
+  end
 
   # create a hash of words we can use
   @alto_words = []
