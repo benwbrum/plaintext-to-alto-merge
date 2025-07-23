@@ -1,8 +1,9 @@
 #!/usr/bin/env ruby
 require 'nokogiri'
 require 'text'
-require 'pry-byebug'
+# require 'pry-byebug'
 require 'optparse'
+require 'set'
 
 # TODO check for outliers via y-axis in coordinates instead of ordering
 # TODO change to span-specific checks
@@ -164,48 +165,34 @@ def setup
 end
 
 def align_range(corrected_range, alto_range, alignment_offset, alto_offset, shortest_word_length=0)
-  # For initial alignment (alignment_offset == 0), prioritize early position matches over uniqueness
-  # This helps ensure words like "August" that appear multiple times get matched at their first occurrence
   if alignment_offset == 0
-    # For initial alignment, still use unique words but process in order of appearance
-    # and allow early duplicates if they appear early enough
+    # For initial alignment, use unique words plus early duplicates
     unique_words = unique_words_of_size(corrected_range, shortest_word_length)
-    early_duplicates = []
     
-    # Find words that appear early in the text but are filtered out due to duplicates
-    corrected_range.each_with_index do |candidate, idx|
-      next if candidate.size < shortest_word_length
-      next if unique_words.include?(candidate)
-      
-      # Only consider as "early duplicate" if it appears in first 20% of corrected text
-      if idx < corrected_range.size * 0.2
-        # Also check if it appears early in the ALTO text  
-        alto_range_index = alto_range.index {|element| element[:string] == candidate}
-        if alto_range_index && alto_range_index < alto_range.size * 0.3
-          early_duplicates << candidate
-        end
-      end
-    end
+    # Find duplicate words that appear very early (first 10 words only)
+    early_words = corrected_range.take(10).select { |word| word.size >= shortest_word_length }
+    duplicate_early_words = early_words - unique_words
     
-    # Process unique words and early duplicates in order of appearance
-    words_to_process = (unique_words + early_duplicates).uniq
+    # Combine unique words with early duplicates, but process unique words first
+    words_to_process = unique_words + duplicate_early_words.uniq
     
     words_to_process.each do |candidate|
       # look for the word in the alto_range
       alto_range_index = alto_range.index {|element| element[:string] == candidate}
 
       if alto_range_index
-        # Skip if this alto element is already used
-        next if @alignment_map.values.include?(alto_range[alto_range_index][:element])
-        
-        # associate words that are found
-        corrected_index = corrected_range.index(candidate) + alignment_offset
+        # For duplicates, only match if it's the first occurrence
+        if duplicate_early_words.include?(candidate)
+          corrected_index = corrected_range.index(candidate) + alignment_offset
+        else
+          corrected_index = corrected_range.index(candidate) + alignment_offset
+        end
         alto_words_index = alto_range_index + alto_offset
         @alignment_map[corrected_index] = alto_range[alto_range_index][:element]
       end
     end
   else
-    # For non-initial alignments, use the original logic with unique words
+    # For subsequent alignments, use unique words only
     unique_words = unique_words_of_size(corrected_range, shortest_word_length)
     # walk through each word, finding the index of the word within @corrected_words (start_range+i)
     unique_words.each do |candidate|
