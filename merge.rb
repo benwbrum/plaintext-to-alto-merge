@@ -604,6 +604,23 @@ alto_element_to_words = {}
     alto_element = @alignment_map[i]
     alto_element_to_words[alto_element] ||= []
     alto_element_to_words[alto_element] << corrected
+  else
+    # Find the most recent previous aligned element and append unaligned word to it
+    previous_aligned_index = nil
+    (i-1).downto(0) do |j|
+      if @alignment_map[j]
+        previous_aligned_index = j
+        break
+      end
+    end
+    
+    if previous_aligned_index
+      # Append the unaligned word to the most recent previous aligned element
+      previous_alto_element = @alignment_map[previous_aligned_index]
+      alto_element_to_words[previous_alto_element] ||= []
+      alto_element_to_words[previous_alto_element] << corrected
+    end
+    # If no previous aligned element exists, the word is not appended anywhere
   end
 end
 
