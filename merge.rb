@@ -47,32 +47,43 @@ def add_processing_element(doc)
   description = doc.at_xpath('//alto:Description', 'alto' => 'http://www.loc.gov/standards/alto/ns-v4#')
   
   if description
+    # Add a newline and tab before the Processing element
+    description.add_child(Nokogiri::XML::Text.new("\n\t\t", doc))
+    
     # Create Processing element
     processing = Nokogiri::XML::Node.new('Processing', doc)
     processing['ID'] = "plaintext-merge-processing-#{Time.now.to_i}"
     
-    # Create processingSoftware element
+    # Add indented text and processingSoftware element
+    processing.add_child(Nokogiri::XML::Text.new("\n\t\t\t", doc))
     processing_software = Nokogiri::XML::Node.new('processingSoftware', doc)
     
-    # Add software details
+    # Add software details with proper indentation
+    processing_software.add_child(Nokogiri::XML::Text.new("\n\t\t\t\t", doc))
     software_name = Nokogiri::XML::Node.new('softwareName', doc)
     software_name.content = 'plaintext-to-alto-merge'
     processing_software.add_child(software_name)
     
+    processing_software.add_child(Nokogiri::XML::Text.new("\n\t\t\t\t", doc))
     software_creator = Nokogiri::XML::Node.new('softwareCreator', doc)
     software_creator.content = 'Brumfield Labs, LLC'
     processing_software.add_child(software_creator)
     
+    processing_software.add_child(Nokogiri::XML::Text.new("\n\t\t\t\t", doc))
     app_description = Nokogiri::XML::Node.new('applicationDescription', doc)
     app_description.content = 'Merges corrected plaintext into ALTO XML while preserving bounding box information. Algorithm aligns text using exact matches, fuzzy matching, and word count consolidation. Repository: https://github.com/benwbrum/plaintext-to-alto-merge'
     processing_software.add_child(app_description)
     
+    processing_software.add_child(Nokogiri::XML::Text.new("\n\t\t\t", doc))
     processing.add_child(processing_software)
     
-    # Add processing date/time
+    # Add processing date/time with proper indentation
+    processing.add_child(Nokogiri::XML::Text.new("\n\t\t\t", doc))
     processing_datetime = Nokogiri::XML::Node.new('processingDateTime', doc)
     processing_datetime.content = Time.now.strftime('%Y-%m-%dT%H:%M:%S')
     processing.add_child(processing_datetime)
+    
+    processing.add_child(Nokogiri::XML::Text.new("\n\t\t", doc))
     
     # Add to description (after existing elements to preserve any previous Processing elements)
     description.add_child(processing)
@@ -746,11 +757,11 @@ add_processing_element(@alto_doc)
 
 # Output the updated ALTO-XML
 if @output_file
-  File.write(@output_file, @alto_doc.to_xml)
+  File.write(@output_file, @alto_doc.to_xml(indent: 1, indent_text: "\t"))
   vprint "Updated ALTO-XML written to #{@output_file}\n"
 else
   # Output to stdout unless in quality mode (which should only output percentage)
-  puts @alto_doc.to_xml unless @quality_only
+  puts @alto_doc.to_xml(indent: 1, indent_text: "\t") unless @quality_only
 end
 
 
