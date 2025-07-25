@@ -1,10 +1,29 @@
 # plaintext-to-alto-merge
-Merges corrected plaintext into a raw ALTO XML file, preserving bounding box info (as much as possible)
+
+A Ruby gem that merges corrected plaintext transcriptions into raw ALTO XML files, preserving bounding box information as much as possible.
+
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'plaintext_to_alto_merge'
+```
+
+And then execute:
+
+    $ bundle install
+
+Or install it yourself as:
+
+    $ gem install plaintext_to_alto_merge
 
 ## Usage
 
+### Command Line Interface
+
 ```bash
-ruby merge.rb [options] CORRECTED_FILE ALTO_FILE
+plaintext-to-alto-merge [options] CORRECTED_FILE ALTO_FILE
 ```
 
 ### Options
@@ -17,13 +36,54 @@ ruby merge.rb [options] CORRECTED_FILE ALTO_FILE
 
 ```bash
 # Output to stdout
-ruby merge.rb corrected.txt input.xml > output.xml
+plaintext-to-alto-merge corrected.txt input.xml > output.xml
 
 # Output to specific file
-ruby merge.rb -o output.xml corrected.txt input.xml
+plaintext-to-alto-merge -o output.xml corrected.txt input.xml
 
 # Get alignment quality percentage only
-ruby merge.rb -q corrected.txt input.xml
+plaintext-to-alto-merge -q corrected.txt input.xml
+```
+
+### API Interface
+
+#### Convenience Method
+
+```ruby
+require 'plaintext_to_alto_merge'
+
+# Simple usage
+result = PlaintextToAltoMerge.merge(
+  corrected_text: "This is the corrected text...",
+  alto_xml: "<alto>...</alto>",
+  verbose: false
+)
+
+puts result  # Returns corrected ALTO XML as string
+```
+
+#### Class-based Approach
+
+```ruby
+require 'plaintext_to_alto_merge'
+
+# Create merger instance
+merger = PlaintextToAltoMerge::Merger.new(verbose: true)
+
+# Process strings
+result = merger.merge(
+  corrected_text: corrected_text_string,
+  alto_xml: alto_xml_string
+)
+
+# Or process files
+result = merger.merge_files(
+  corrected_file: "path/to/corrected.txt",
+  alto_file: "path/to/input.xml"
+)
+
+# Get alignment statistics
+puts "Alignment: #{merger.final_alignment_percentage.round(2)}%"
 ```
 
 ## Output

@@ -11,6 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary = "Merges corrected plaintext into ALTO XML files, preserving bounding box information"
   spec.description = "A Ruby gem that aligns corrected plaintext transcriptions with raw ALTO XML files, preserving coordinate information while updating text content. Provides both API and command-line interfaces."
   spec.homepage = "https://github.com/benwbrum/plaintext-to-alto-merge"
+  spec.license = "GPL-3.0"
   spec.required_ruby_version = ">= 2.6.0"
 
   spec.metadata["homepage_uri"] = spec.homepage
