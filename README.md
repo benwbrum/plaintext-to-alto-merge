@@ -90,3 +90,9 @@ def match_matrix(corrected_text, elements)
     matrix[element] = Text::Levenshtein.distance(raw_text, correction) / raw_text.length
   end
 end
+
+### index_within_alto
+This helper locates the position of an ALTO element within the cached
+`@alto_words` array. It accepts an optional `range` argument so that
+searches can be restricted to a subset of words. If the element is not
+found within that range, the method returns `nil`.

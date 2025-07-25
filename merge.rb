@@ -100,8 +100,13 @@ def remove_outliers(alignment_map)
   remove_outliers_by_y(alignment_map)
 end
 
-def index_within_alto(element) 
-  @alto_words.map{|e| e[:element]}.index(element)
+def index_within_alto(element, range = 0...@alto_words.length)
+  return nil unless range
+  start = range.begin || 0
+  subset = @alto_words[start...range.end]
+  index = subset.map { |e| e[:element] }.index(element)
+  return nil unless index
+  start + index
 end
 
 
@@ -240,25 +245,32 @@ while alignment_count < @alignment_map.size do
   # false-positive matches are more likely with short words.  Attempting to align longer words first reduces the chances of misalignments.
   LONG_WORD_LENGTH.downto(0) do |shortest_word_length|
     previous_index = nil
+    previous_alto_index = 0
     @alignment_map.keys.sort.each_with_index do |key,i|
       if i==0
-        previous_index=key
+        previous_index = key
+        previous_alto_index = index_within_alto(@alignment_map[previous_index]) || 0
       else
         current_index = key
-        # get the range between the two
-        start_range = previous_index+1
-        end_range = current_index-1
-        
-        corrected_range = @corrected_words[start_range..end_range]
-        # get the range of @alto_words that corresponds to the current range (segments within the anchors bounding the current range)
+        start_range = previous_index + 1
+        end_range = current_index - 1
 
-        alto_start = index_within_alto(@alignment_map[previous_index])
-        alto_end = index_within_alto(@alignment_map[current_index])
+        corrected_range = @corrected_words[start_range..end_range]
+
+        alto_end = index_within_alto(@alignment_map[current_index], previous_alto_index...@alto_words.length)
+        unless alto_end
+          vprint "WARNING: Anchor #{current_index} outside expected range\n"
+          previous_index = current_index
+          next
+        end
+
+        alto_start = previous_alto_index
         alto_range = @alto_words[alto_start..alto_end]
 
         align_range(corrected_range, alto_range, start_range, alto_start, shortest_word_length)
 
-        previous_index=key
+        previous_index = current_index
+        previous_alto_index = alto_end
       end
     end
   end
@@ -275,21 +287,27 @@ print_span_lengths
 
 vprint "Phase B: Aligning words based on fuzzy matching"
 previous_index = nil
+previous_alto_index = 0
 @alignment_map.keys.sort.each_with_index do |key,i|
   if i==0
-    previous_index=key
+    previous_index = key
+    previous_alto_index = index_within_alto(@alignment_map[previous_index]) || 0
   else
     current_index = key
-    # get the range between the two
-    start_range = previous_index+1
-    end_range = current_index-1
-    
+    start_range = previous_index + 1
+    end_range = current_index - 1
+
     corrected_range = @corrected_words[start_range..end_range]
     unique_words = unique_words_of_size(corrected_range, LONG_WORD_LENGTH)
-    # get the range of @alto_words that corresponds to the current range (segments within the anchors bounding the current range)
 
-    alto_start = index_within_alto(@alignment_map[previous_index])
-    alto_end = index_within_alto(@alignment_map[current_index])
+    alto_end = index_within_alto(@alignment_map[current_index], previous_alto_index...@alto_words.length)
+    unless alto_end
+      vprint "WARNING: Anchor #{current_index} outside expected range\n"
+      previous_index = current_index
+      next
+    end
+
+    alto_start = previous_alto_index
     alto_range = @alto_words[alto_start..alto_end]
 
     if alto_range.size > 0
@@ -313,6 +331,7 @@ previous_index = nil
       end
     end
     previous_index=key
+    previous_alto_index=alto_end
   end
 end
 remove_outliers(@alignment_map)
@@ -325,22 +344,28 @@ print_span_lengths
 vprint "Phase B2: Additional aggressive fuzzy matching for poor quality text\n"
 # Try even more aggressive fuzzy matching for remaining unaligned words
 previous_index = nil
+previous_alto_index = 0
 @alignment_map.keys.sort.each_with_index do |key,i|
   if i==0
-    previous_index=key
+    previous_index = key
+    previous_alto_index = index_within_alto(@alignment_map[previous_index]) || 0
   else
     current_index = key
-    # get the range between the two
-    start_range = previous_index+1
-    end_range = current_index-1
-    
+    start_range = previous_index + 1
+    end_range = current_index - 1
+
     corrected_range = @corrected_words[start_range..end_range]
     # Only process if there are still unaligned words in this range
     unaligned_in_range = corrected_range.select.with_index { |word, idx| !@alignment_map[start_range + idx] }
-    
+
     if unaligned_in_range.any?
-      alto_start = index_within_alto(@alignment_map[previous_index])
-      alto_end = index_within_alto(@alignment_map[current_index])
+      alto_end = index_within_alto(@alignment_map[current_index], previous_alto_index...@alto_words.length)
+      unless alto_end
+        vprint "WARNING: Anchor #{current_index} outside expected range\n"
+        previous_index = current_index
+        next
+      end
+      alto_start = previous_alto_index
       alto_range = @alto_words[alto_start..alto_end]
       
       if alto_range.size > 0
@@ -372,6 +397,7 @@ previous_index = nil
       end
     end
     previous_index=key
+    previous_alto_index=alto_end
   end
 end
 remove_outliers(@alignment_map)
