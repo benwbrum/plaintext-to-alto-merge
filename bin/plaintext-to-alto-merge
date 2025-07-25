@@ -1,0 +1,84 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'optparse'
+require_relative '../lib/plaintext_to_alto_merge'
+
+# Global options
+verbose = false
+quality_only = false
+output_file = nil
+
+# Parse command line options
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: plaintext-to-alto-merge [options] CORRECTED_FILE ALTO_FILE"
+  
+  opts.on("-v", "--verbose", "Print debugging output") do |v|
+    verbose = v
+  end
+  
+  opts.on("-q", "--quality", "Print only final alignment percentages") do |q|
+    quality_only = q
+  end
+  
+  opts.on("-o", "--output FILE", "Output updated ALTO-XML to specified file (default: stdout)") do |file|
+    output_file = file
+  end
+  
+  opts.on("-h", "--help", "Show this help message") do
+    puts opts
+    exit
+  end
+end.parse!
+
+# Check for required arguments
+if ARGV.length != 2
+  puts "Error: Please provide both CORRECTED_FILE and ALTO_FILE"
+  puts "Usage: plaintext-to-alto-merge [options] CORRECTED_FILE ALTO_FILE"
+  puts "Use -h or --help for more information"
+  exit 1
+end
+
+# Parse command line arguments
+corrected_file = ARGV[0]
+alto_file = ARGV[1]
+
+# Validate files exist
+unless File.exist?(corrected_file)
+  puts "Error: Corrected file '#{corrected_file}' not found"
+  exit 1
+end
+
+unless File.exist?(alto_file)
+  puts "Error: ALTO file '#{alto_file}' not found"
+  exit 1
+end
+
+begin
+  # Create merger and process files
+  merger = PlaintextToAltoMerge::Merger.new(verbose: verbose && !quality_only)
+  result = merger.merge_files(corrected_file: corrected_file, alto_file: alto_file)
+  
+  # Output final alignment percentage if in quality mode
+  if quality_only
+    puts "#{merger.final_alignment_percentage.round(2)}%"
+  end
+  
+  # Output the updated ALTO-XML
+  if output_file
+    File.write(output_file, result)
+    puts "Updated ALTO-XML written to #{output_file}" if verbose && !quality_only
+  else
+    # Output to stdout unless in quality mode (which should only output percentage)
+    puts result unless quality_only
+  end
+
+rescue PlaintextToAltoMerge::Error => e
+  puts "Error: #{e.message}"
+  exit 1
+rescue => e
+  puts "Unexpected error: #{e.message}"
+  puts e.backtrace if verbose
+  exit 1
+end
