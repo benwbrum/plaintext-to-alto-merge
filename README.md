@@ -1,6 +1,37 @@
 # plaintext-to-alto-merge
-Exploratory code to merge corrected plaintext into a raw ALTO XML file, 
-preserving bounding box info (as much as possible)
+Merges corrected plaintext into a raw ALTO XML file, preserving bounding box info (as much as possible)
+
+## Usage
+
+```bash
+ruby merge.rb [options] CORRECTED_FILE ALTO_FILE
+```
+
+### Options
+- `-v, --verbose`: Print debugging output
+- `-q, --quality`: Print only final alignment percentages  
+- `-o, --output FILE`: Output updated ALTO-XML to specified file (default: stdout)
+- `-h, --help`: Show help message
+
+### Examples
+
+```bash
+# Output to stdout
+ruby merge.rb corrected.txt input.xml > output.xml
+
+# Output to specific file
+ruby merge.rb -o output.xml corrected.txt input.xml
+
+# Get alignment quality percentage only
+ruby merge.rb -q corrected.txt input.xml
+```
+
+## Output
+
+The updated ALTO-XML includes:
+- Aligned text content from the corrected transcript
+- Preserved bounding box information from the original ALTO
+- A `Processing` element in the `Description` with metadata about this software
 
 
 ## Algorithm
