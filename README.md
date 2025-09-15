@@ -35,9 +35,36 @@ The updated ALTO-XML includes:
 
 
 ## Algorithm
-This program will attempt to find matching lines in the ALTO and the corrected
-plaintext, merge corrected text into matching lines, then remove "noise" lines 
-from the ALTO file.
+
+This implementation is based on the **Recursive Text Alignment Scheme (RETAS)** described in Yalniz & Manmatha's paper ["A Fast Alignment Scheme for Automatic OCR Evaluation of Books"](https://ciir-publications.cs.umass.edu/getpdf.php?id=982).
+
+### RETAS Overview
+
+The RETAS algorithm provides a framework for aligning OCR-generated text with ground truth text by:
+1. **Initial Anchor Points**: Finding exact word matches between texts to establish reliable alignment anchors
+2. **Recursive Segmentation**: Recursively dividing the text into smaller segments between anchor points
+3. **Local Alignment**: Aligning words within each segment using various strategies
+
+### This Implementation
+
+This program extends RETAS with several enhancements for merging corrected plaintext into ALTO XML while preserving bounding box information:
+
+**Similarities to RETAS:**
+- Uses exact word matching to establish initial anchor points
+- Recursively processes segments between anchors
+- Applies fuzzy matching for difficult-to-align segments
+
+**Key Differences from RETAS:**
+- **Multi-phase approach**: Implements distinct phases (A-F) with progressively more aggressive alignment strategies
+- **ALTO-specific handling**: Preserves XML structure and bounding box coordinates from the original ALTO file
+- **Enhanced fuzzy matching**: Uses Levenshtein distance with adaptive thresholds for different word lengths
+- **Outlier removal**: Removes misaligned elements based on spatial coordinates (Y-axis positioning)
+- **Word consolidation**: Handles cases where multiple corrected words map to single ALTO elements
+- **Final cleanup**: Aggressive alignment phase for remaining unmatched words
+
+The program will attempt to find matching words in the ALTO and the corrected
+plaintext, merge corrected text into matching elements, then remove unaligned 
+elements from the ALTO file.
 
 ### Merge Alto
 Inputs:
